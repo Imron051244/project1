@@ -94,14 +94,14 @@
                                             <!-- แสดงเฉพาะราคาขายสำหรับผู้ซื้อ -->
                                             <div class="product-price">
                                                 <span id="productSellPrice" class="sale-price">
-                                                    ราคาขาย ฿{{$getProductDetail->price_buy }}
+                                                    ราคา ฿{{$getProductDetail->price_buy }}
                                                 </span>
                                             </div>
                                             @elseif (auth()->check() && auth()->user()->type === 'ผู้ขาย')
                                             <!-- แสดงเฉพาะราคาขายสำหรับผู้ขาย -->
                                             <div class="product-price">
                                                 <span id="productPrice" class="sale-price">
-                                                    ราคาซื้อ ฿{{$getProductDetail->price_sell}}
+                                                    ราคา ฿{{$getProductDetail->price_sell}}
                                                 </span>
                                             </div>
                                             @else
@@ -248,8 +248,8 @@
 
 
                     // เพิ่มราคาที่ได้รับจาก response
-                    $('#productPrice').text('ราคารับซื้อ' + ' ฿' + response.price_buy);
-                    $('#productSellPrice').text('ราคาขาย' + ' ฿' + response.price_sell); // แสดงราคาขาย
+                    $('#productPrice').text('ราคา' + ' ฿' + response.price_buy);
+                    $('#productSellPrice').text('ราคา' + ' ฿' + response.price_sell); // แสดงราคาขาย
 
                 }
             });

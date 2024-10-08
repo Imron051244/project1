@@ -1,6 +1,5 @@
 @extends('layouts.admin.navbar')
 
-
 @section('content')
 <div class="main-content">
     <section class="section">

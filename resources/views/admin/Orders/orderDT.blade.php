@@ -115,11 +115,12 @@
                                 <div class="card-header-action">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <a class="btn btn-success" href="{{route('order_editbuy', $getdetailsell->users_sell_id)}}">แก้ไข้</a>
+                                            <a class="btn btn-success" href="{{route('showReceipt')}}">ออกใบเสร็จ</a>
                                         </div>
                                     </div>
                                 </div>
                                 @endif
+
 
                                 @if (!empty($getdetailbuy))
                                 <div class="card-header-action">
@@ -158,6 +159,7 @@
                                             <th>จำนวน</th>
                                             <th>ราคาต่อหน่วย</th>
                                             <th>ราคารวม</th>
+                                            <th>เพิ่มเติม</th>
                                         </tr>
                                         @endif
                                     </thead>
@@ -191,6 +193,18 @@
                                             <td>{{$detailSell->price}}</td>
 
                                             <td>{{$detailSell->total_price}}</td>
+                                            <td>
+                                                <div class="card-header-action">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <a class="btn btn-success" href="#">แก้ไข้</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+
+
 
                                         </tr>
                                         @endforeach

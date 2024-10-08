@@ -119,7 +119,9 @@ class PaymentController extends Controller
                 $odersell->total_price = $header_cart->price * $header_cart->quantity;
                 $odersell->save();
 
-                $product = ProductModel::find($odersell->product_id); // หาผู้ใช้ตาม user_id
+                $product = PriceModel::where('product_id', $odersell->product_id)
+                ->where('grade', $odersell->grade)
+                ->first(); // หาผู้ใช้ตาม user_id
                 if ($product) {
                     $product->qty -= $odersell->quantity;
                     $product->save();

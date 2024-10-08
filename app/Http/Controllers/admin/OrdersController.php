@@ -146,12 +146,14 @@ class OrdersController extends Controller
     }
 
 
-    
+
 
     public function order_create()
     {
 
         $data['getRecord'] = ProductModel::getRecord();
+
+
         return view('admin.Orders.orderCE', $data);
     }
 
@@ -194,15 +196,23 @@ class OrdersController extends Controller
         $oderbuy->quantity = $request->qty;
         $oderbuy->save();
 
-        $oderbuy = ProductModel::find($request->product_id);
+        $oderbuy = PriceModel::where('product_id', $request->product_id)
+            ->where('grade', $request->grade)
+            ->first();
+
         if ($oderbuy) { // ตรวจสอบว่าพบผู้ใช้หรือไม่
             $oderbuy->qty += trim($request->qty);
             $oderbuy->save(); // บันทึกการเปลี่ยนแปลง
         }
 
+        // เก็บข้อมูลใน session เพื่อส่งกลับไปยังฟอร์ม
+        session()->put('name', $request->name);
+        session()->put('last_name', $request->last_name);
+        session()->put('phone', $request->phone);
+
 
         // ทำการบันทึกหรือส่งข้อมูลกลับหลังจากทำงานเสร็จ
-        return redirect()->back()->with('successd', 'คำสั่งซื้อของคุณถูกบันทึกเรียบร้อยแล้ว!');;
+    return redirect()->back()->with('successd', 'คำสั่งซื้อของคุณถูกบันทึกเรียบร้อยแล้ว!');
     }
 
 
@@ -212,17 +222,17 @@ class OrdersController extends Controller
     {
         // ข้อมูลที่จะแสดงในใบเสร็จ (เปลี่ยนข้อมูลตามจริงที่คุณมี)
         $receiptData = [
-            // 'order_number' => '00123',
-            // 'customer_name' => 'นายสมชาย',
-            // 'customer_address' => '123/4 ซอยสุขุมวิท 49 กรุงเทพฯ',
-            // 'customer_phone' => '081-234-5678',
-            // 'items' => [
-            //     ['name' => 'มะม่วง', 'quantity' => '3 กิโลกรัม', 'price_per_unit' => '80 บาท/กิโลกรัม', 'total' => '240 บาท'],
-            //     ['name' => 'กล้วย', 'quantity' => '2 หวี', 'price_per_unit' => '50 บาท/หวี', 'total' => '100 บาท'],
-            //     ['name' => 'ส้ม', 'quantity' => '5 กิโลกรัม', 'price_per_unit' => '60 บาท/กิโลกรัม', 'total' => '300 บาท'],
-            //     ['name' => 'แตงโม', 'quantity' => '1 ลูก', 'price_per_unit' => '120 บาท/ลูก', 'total' => '120 บาท'],
-            // ],
-            // 'total_amount' => '760 บาท',
+            'order_number' => '00123',
+            'customer_name' => 'นายสมชาย',
+            'customer_address' => '123/4 ซอยสุขุมวิท 49 กรุงเทพฯ',
+            'customer_phone' => '081-234-5678',
+            'items' => [
+                ['name' => 'มะม่วง', 'quantity' => '3 กิโลกรัม', 'price_per_unit' => '80 บาท/กิโลกรัม', 'total' => '240 บาท'],
+                ['name' => 'กล้วย', 'quantity' => '2 หวี', 'price_per_unit' => '50 บาท/หวี', 'total' => '100 บาท'],
+                ['name' => 'ส้ม', 'quantity' => '5 กิโลกรัม', 'price_per_unit' => '60 บาท/กิโลกรัม', 'total' => '300 บาท'],
+                ['name' => 'แตงโม', 'quantity' => '1 ลูก', 'price_per_unit' => '120 บาท/ลูก', 'total' => '120 บาท'],
+            ],
+            'total_amount' => '760 บาท',
         ];
 
         return view('admin.Orders.receipt', ['receiptData' => $receiptData]);

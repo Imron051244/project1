@@ -1,5 +1,52 @@
 @extends('layouts.admin.navbar')
 
+@section('style')
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        max-width: 1200px;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
+    .btn-custom {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-custom:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+
+    .pagination {
+        justify-content: center;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        border-color: #6c757d;
+    }
+</style>
+
+@endsection
+
 @section('content')
 <div class="main-content" style="min-height: 647px;">
     <section class="section">
@@ -8,6 +55,7 @@
         </div>
         <div class="row">
             <div class="col-12">
+
                 <!-- การซื้อ -->
                 <div class="card">
                     <div class="card-header">
@@ -96,12 +144,12 @@
                     <div class="card-header">
                         <h4>การขาย</h4>
                         <div class="col-9 col-md-9 col-lg-9">
-                                <div class="buttons">
-                                    <a href="{{route('order_create')}}" class="btn btn-sm btn-warning">รับซื้อ</a>
-                                </div>
+                            <div class="buttons">
+                                <a href="{{route('order_create')}}" class="btn btn-sm btn-warning">รับซื้อ</a>
                             </div>
+                        </div>
                         <div class="card-header-action">
-                           
+
                             <form method="get">
                                 <div class="input-group">
                                     <input type="text" name="search_sell" value="{{ Request::get('search_sell') }}" class="form-control" placeholder="ค้นหา (เบอร์โทรผู้ขาย)">
@@ -178,6 +226,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>

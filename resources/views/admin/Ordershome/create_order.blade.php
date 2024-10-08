@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 <div class="main-content" style="min-height: 647px;">
     <section class="section">
         <div class="section-header">
@@ -15,10 +13,11 @@
                 <div class="card">
                     <div class="card-body">
                         <form action="{{route('order_create_save')}}" method="post">
+                            <!-- Flash message -->
                             @if (session('successd'))
-                            <script>
-                                alert("{{ session('successd') }}");
-                            </script>
+                            <div class="alert alert-success">
+                                {{ session('successd') }}
+                            </div>
                             @endif
                             {{ csrf_field() }}
                             <div class="card">
@@ -30,21 +29,21 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label for="inputEmail4">ชื่อ</label>
-                                            <input type="text" name="name" class="form-control">
+                                            <input type="text" name="name" value="{{ old('name', session('name')) }}" class="form-control">
                                             @error('name')
                                             <span class="text-danger">{{$message}}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="inputPassword4">สกุล</label>
-                                            <input type="text" name="last_name" class="form-control">
+                                            <input type="text" name="last_name" value="{{ old('last_name', session('last_name')) }}" class="form-control">
                                             @error('last_name')
                                             <span class="text-danger">{{$message}}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="inputPassword4">เบอร์โทร</label>
-                                            <input type="text" name="phone" class="form-control">
+                                            <input type="text" name="phone" value="{{ old('phone', session('phone')) }}" class="form-control">
                                             @error('phone')
                                             <span class="text-danger">{{$message}}</span>
                                             @enderror
@@ -70,10 +69,10 @@
                                         <div class="form-group col-md-4">
                                             <label for="inputEmail4">เกรด</label>
 
-                                            <select id="productGrade" name="grade" class="form-control">
+                                            <select id="productGrade" name="grade" value="{{ old('grade', session('grade')) }}" class="form-control">
                                                 <option disabled selected>โปรดเลือกเกรด</option>
 
-                                                
+
                                             </select>
                                             @error('grade')
                                             <span class="text-danger">{{$message}}</span>

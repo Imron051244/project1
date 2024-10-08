@@ -79,6 +79,7 @@ class ProductController extends Controller
         $product = ProductModel::getSingle($id);
         $product->category_id = trim($request->category_id);
         $product->title = trim($request->title);
+        $product->qty = trim($request->qty);
         $product->save();
 
         if (!empty($request->file('image'))) {
@@ -139,13 +140,14 @@ class ProductController extends Controller
     public function ByGrade(Request $request)
     {
         $priceIds = $request->price;
-        $price = PriceModel::select('price_buy', 'price_sell')->find($priceIds);
+        $price = PriceModel::select('price_buy', 'price_sell', 'qty')->find($priceIds);
 
         // ตรวจสอบว่า $price ไม่เป็น null ก่อนเข้าถึง price_buy
         if ($price) {
             return response()->json([
                 'price_buy' => $price->price_buy,
-                'price_sell' => $price->price_sell
+                'price_sell' => $price->price_sell,
+                'qty' => $price->qty
             ]);
         } else {
         }

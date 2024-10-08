@@ -29,8 +29,8 @@
                                         <th>ประเภท</th>
                                         <th>ชือสินค้า</th>
                                         <th>เกรด</th>
-                                        <th>ราคารับซื้อ</th>
-                                        <th>ราคาขาย</th>
+                                        <th>ราคารับซื้อ฿</th>
+                                        <th>ราคาขาย฿</th>
                                         <th>สินค้าคงอยู่ (kg.)</th>
                                         <th>รูปภาพสินค้า</th>
                                         <th>วันที่เพิ่ม</th>
@@ -67,7 +67,7 @@
                                         <td><span class="PriceBuy sale-price">฿</span></td>
                                         <td><span class="PriceSell sale-price">฿</span></td>
 
-                                        <td>{{$Product->qty}}</td>
+                                        <td><span class="qty"></span></td>
 
                                         <td>
                                             <div class="card-body">
@@ -139,8 +139,8 @@
                     var row = $(this).closest('tr'); // หาช่องที่เกี่ยวข้อง
                     row.find('.PriceBuy').text(' ฿' + response.price_buy);
                     row.find('.PriceSell').text(' ฿' + response.price_sell);
+                    row.find('.qty').text(response.qty);
                 }.bind(this)
-
 
             });
         });

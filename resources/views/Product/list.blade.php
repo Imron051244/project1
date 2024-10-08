@@ -89,7 +89,7 @@
 
 
 											<div class="product-price">
-												<span class="sale-price">$</span>
+												<span class="sale-price">฿</span>
 											</div>
 
 											<div class="product-buttons">
