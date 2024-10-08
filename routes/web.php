@@ -56,9 +56,9 @@ Route::middleware(['admin'])->group(function () {
     });
 
     Route::controller(ProductController::class)->group(function () {
-        Route::get('product/list', 'listpdt')->name('listpdt');
         Route::get('pdtcreate', 'pdtcreate')->name('pdtcreate');
         Route::post('pdtcreate', 'productSave');
+        Route::get('product', 'listpdt')->name('listpdt');
         Route::get('editpdt/{id}', 'edit')->name('editpdt');
         Route::post('editpdt/{id}', 'update');
         Route::get('deletepdt/{id}', 'delete')->name('deletepdt');

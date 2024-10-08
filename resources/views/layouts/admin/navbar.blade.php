@@ -6,62 +6,10 @@
 <!-- Start app top navbar -->
 <nav class="navbar navbar-expand-lg main-navbar">
     <form class="form-inline mr-auto">
-
-        <div class="search-element">
-
-            <div class="search-backdrop"></div>
-            <div class="search-result">
-                <div class="search-header">Histories</div>
-                <div class="search-item">
-                    <a href="#">How to Used HTML in Laravel</a>
-                    <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                </div>
-                <div class="search-item">
-                    <a href="https://themeforest.net/user/admincraft/portfolio" target="_black">Admincraft
-                        Portfolio</a>
-                    <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                </div>
-                <div class="search-item">
-                    <a href="#">#CodiePie</a>
-                    <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                </div>
-                <div class="search-header">Result</div>
-                <div class="search-item">
-                    <a href="#">
-                        <img class="mr-3 rounded" width="30" src="assets/img/products/product-3-50.png" alt="product">
-                        oPhone 11 Pro
-                    </a>
-                </div>
-                <div class="search-item">
-                    <a href="#">
-                        <img class="mr-3 rounded" width="30" src="assets/img/products/product-2-50.png" alt="product">
-                        Drone Zx New Gen-3
-                    </a>
-                </div>
-                <div class="search-item">
-                    <a href="#">
-                        <img class="mr-3 rounded" width="30" src="assets/img/products/product-1-50.png" alt="product">
-                        Headphone JBL
-                    </a>
-                </div>
-                <div class="search-header">Projects</div>
-                <div class="search-item">
-                    <a href="https://themeforest.net/item/epice-laravel-admin-template-for-hr-project-management/24466729"
-                        target="_black">
-                        <div class="search-icon bg-danger text-white mr-3"><i class="fas fa-code"></i></div>
-                        Epice Laravel - Admin Template
-                    </a>
-                </div>
-                <div class="search-item">
-                    <a href="https://themeforest.net/item/soccer-project-management-admin-template-ui-kit/24646866"
-                        target="_black">
-                        <div class="search-icon bg-primary text-white mr-3"><i class="fas fa-laptop"></i>
-                        </div>
-                        Soccer - Admin Template
-                    </a>
-                </div>
-            </div>
-        </div>
+        <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fa fa-bars"></i></a></li>
+            <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+        </ul>
     </form>
     <ul class="navbar-nav navbar-right">
 
@@ -97,7 +45,7 @@
             <a>เจ้าของร้าน</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index-2.html">CP</a>
+            <a href="">CP</a>
         </div>
 
         <ul class="sidebar-menu">
@@ -113,7 +61,7 @@
             <li><a class="nav-link @if (Request::segment(2) == 'Category') active @endif"
                     href="{{route('listcategory')}}"><i class="far fa-square"></i> <span>ประเภทสินค้า</span></a></li>
 
-            <li><a class="nav-link @if (Request::segment(2) == 'Product') active @endif" href="{{route('listpdt')}}"><i
+            <li><a class="nav-link @if (Request::segment(2) == 'Price') active @endif" href="{{route('listpdt')}}"><i
                         class="far fa-square"></i> <span>สินค้า</span></a></li>
 
             <li><a class="nav-link @if (Request::segment(2) == 'Price') active @endif" href="{{route('price')}}"><i
@@ -124,12 +72,6 @@
 
 
         </ul>
-
-
-
-
-
-
 
     </aside>
 </div>
