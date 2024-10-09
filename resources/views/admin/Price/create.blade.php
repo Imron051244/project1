@@ -15,6 +15,12 @@
                         <form action="{{route('price_save')}}" method="post">
                             {{ csrf_field() }}
 
+                            @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
+
                             <div class="form-group">
                                 <label for="basic-url">ชื่อสินค้า</label>
                                 <select name="product_id" id="product_id" class="form-control">

@@ -29,7 +29,7 @@
 
                             <div class="form-group">
                                 <label for="basic-url">เกรดสินค้า</label>
-                                <select name="grade" class="form-control">
+                                <select name="grade" class="form-control" disabled>
                                     <option value="#" disabled {{ old('grade', $getRecord->grade) ? '' : 'selected' }}>โปรดเลือกเกรดสินค้า</option>
                                     <option value="LA (ใหญ่ สวย)" {{ old('grade', $getRecord->grade) == 'LA (ใหญ่ สวย)' ? 'selected' : '' }}>LA (ใหญ่ สวย)</option>
                                     <option value="MA (กลาง สวย)" {{ old('grade', $getRecord->grade) == 'MA (กลาง สวย)' ? 'selected' : '' }}>MA (กลาง สวย)</option>
@@ -48,7 +48,15 @@
                                 <label>ราคารับซื้อ</label>
                                 <input type="text" class="form-control" name="price_buy"
                                     value="{{ old('price', $getRecord->price_buy) }}">
+                            </div>
 
+                            <div class="form-group">
+                                <label>จำนวนสินค้า</label>
+                                <input type="text" value="{{ old('qty', $getRecord->qty) }}" name="qty"
+                                    class="form-control">
+                                @error('title')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
                             </div>
 
                             <div class="card-footer text-right">

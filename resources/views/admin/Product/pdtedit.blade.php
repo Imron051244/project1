@@ -35,15 +35,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label>จำนวนสินค้า</label>
-                                <input type="text" value="{{ old('qty', $getRecord->qty) }}" name="qty"
-                                    class="form-control">
-                                @error('title')
-                                    <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
                                 <label for="basic-url">รูปภาพ</label>
                                 <input type="file" class="form-control" name="image[]" multiple accept="image/*">
                             </div>

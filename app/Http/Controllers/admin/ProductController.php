@@ -79,7 +79,6 @@ class ProductController extends Controller
         $product = ProductModel::getSingle($id);
         $product->category_id = trim($request->category_id);
         $product->title = trim($request->title);
-        $product->qty = trim($request->qty);
         $product->save();
 
         if (!empty($request->file('image'))) {

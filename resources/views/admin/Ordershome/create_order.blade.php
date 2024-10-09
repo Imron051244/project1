@@ -5,7 +5,7 @@
 <div class="main-content" style="min-height: 647px;">
     <section class="section">
         <div class="section-header">
-            <h1>รายการรับซื้อ</h1>
+            <h1>การรับซื้อหน้าร้าน</h1>
         </div>
 
         <div class="row">
@@ -69,7 +69,7 @@
                                         <div class="form-group col-md-4">
                                             <label for="inputEmail4">เกรด</label>
 
-                                            <select id="productGrade" name="grade" value="{{ old('grade', session('grade')) }}" class="form-control">
+                                            <select id="productGrade" name="grade" class="form-control">
                                                 <option disabled selected>โปรดเลือกเกรด</option>
 
 

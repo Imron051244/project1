@@ -9,9 +9,12 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\PriceController;
 use App\Http\Controllers\admin\OrdersController;
+use App\Http\Controllers\admin\OrdershomeController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PaymentController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +84,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/orders', [OrdersController::class, 'Order'])->name('orders');
     Route::get('/orders/delete/{id}', [OrdersController::class, 'order_delete']);
     Route::get('/orders/detail-sell/{id}', [OrdersController::class, 'order_detailsell'])->name('order_detailsell');
-    Route::post('/orders/{id}/status', [OrdersController::class, 'updateStatus'])->name('order.updateStatus');
+    Route::post('/order/sell-status/{id}', [OrdersController::class, 'updateStatus'])->name('order.updateStatus');
     
 
 
@@ -93,8 +96,12 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/orders/create-buy/', [OrdersController::class, 'order_create'])->name('order_create');
     Route::get('/orders/create-buy/grade', [OrdersController::class, 'grade'])->name('grade');
     Route::get('/orders/create-buy/price_grade', [OrdersController::class, 'price_grade'])->name('price_grade');
-    Route::post('/orders/create-buy/save', [OrdersController::class, 'order_create_save'])->name('order_create_save');
+    
     Route::get('/orders/showReceipt', [OrdersController::class, 'showReceipt'])->name('showReceipt');
+
+    Route::get('/orders-home', [OrdershomeController::class, 'order_home'])->name('order_home');
+    Route::get('/orders-home/create', [OrdershomeController::class, 'order_home_create'])->name('order_home_create');
+    Route::post('/orders/create-buy/save', [OrdershomeController::class, 'order_create_save'])->name('order_create_save');
 
     
 });

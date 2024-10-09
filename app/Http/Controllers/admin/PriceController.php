@@ -42,9 +42,19 @@ class PriceController extends Controller
             'price_buy.numeric' => 'ราคารับซื้อต้องเป็นตัวเลขเท่านั้น',  // ถ้าราคารับซื้อไม่เป็นตัวเลข
         ]);
 
-        // ตรวจสอบว่า price_sell น้อยกว่า price_buy
-        if ($request->price_buy>= $request->price_sell) {
-            return back()->withErrors(['price_sell' => 'ราคาขายต้องน้อยกว่าราคารับซื้อ']);
+        //  ตรวจสอบว่า price_sell น้อยกว่า price_buy
+        // if ($request->price_buy >= $request->price_sell) {
+        //     return back()->withErrors(['price_sell' => 'ราคาขายต้องน้อยกว่าราคารับซื้อ']);
+        // }
+
+        // ตรวจสอบว่ามีสินค้าและเกรดเดียวกันในฐานข้อมูลอยู่แล้วหรือไม่
+        $existingPrice = PriceModel::where('product_id', trim($request->product_id))
+            ->where('grade', trim($request->grade))
+            ->exists();
+
+        if ($existingPrice) {
+            // ถ้ามีอยู่แล้ว ให้ส่ง error กลับไปหรือแจ้งผู้ใช้
+            return redirect()->back()->with('error', 'สินค้าหรือเกรดนี้มีอยู่แล้ว');
         }
 
 
@@ -53,6 +63,7 @@ class PriceController extends Controller
         $Price->grade = trim($request->grade);
         $Price->price_sell = trim($request->price_sell);
         $Price->price_buy = trim($request->price_buy);
+        $Price->qty = trim($request->qty);
         $Price->save();
 
         return redirect('/price')->with('success', 'บันทึกสำเสร็จ');
@@ -69,10 +80,12 @@ class PriceController extends Controller
 
     public function update($id, Request $request)
     {
+
         $Price = PriceModel::getSingles($id);
         $Price->grade = trim($request->grade);
         $Price->price_sell = trim($request->price_sell);
         $Price->price_buy = trim($request->price_buy);
+        $Price->qty = trim($request->qty);
         $Price->save();
 
 

@@ -31,6 +31,7 @@
                                         <th>เกรด</th>
                                         <th>ราคารับซื้อ</th>
                                         <th>ราคาขาย</th>
+                                        <th>สินค้าคงอยู่ (ก.)</th>
                                         <th>วันที่เพิ่ม</th>
                                         <th>วันที่อัพเดด</th>
                                         <th>Action</th>
@@ -52,6 +53,7 @@
                                         <td>{{$price->price_buy}}</td>
 
                                         <td>{{$price->price_sell}}</td>
+                                        <td>{{$price->qty}}</td>
 
                                         <td>{{date('d-m-Y', strtotime($price->created_at))}}</td>
 

@@ -69,7 +69,8 @@
 
             <li><a class="nav-link @if (Request::segment(2) == 'Price') active @endif" href="{{route('orders')}}"><i
                         class="far fa-square"></i> <span>ราการซื้อขาย</span></a></li>
-
+                        <li><a class="nav-link @if (Request::segment(2) == 'Price') active @endif" href="{{route('order_home')}}"><i
+                        class="far fa-square"></i> <span>รายการรับซื้อหน้าร้าน</span></a></li>
 
         </ul>
 

@@ -66,15 +66,19 @@ class OrdersController extends Controller
         return view('admin.Orders.orderDT', $data);
     }
 
-    public function updateStatus($id)
+    public function updateStatus(Request $request, $id)
     {
         // ดึงข้อมูลคำสั่งซื้อจาก UserSellModel หรือ UserBuyModel
         $Order = UserSellModel::find($id);
 
         // ตรวจสอบว่าพบคำสั่งซื้อจาก UserSellModel หรือ UserBuyModel หรือไม่
         if ($Order) {
-            // เปลี่ยนสถานะ: ถ้าเป็น 0 จะเปลี่ยนเป็น 1, ถ้าเป็น 1 จะเปลี่ยนเป็น 0
-            $Order->status = ($Order->status == 0) ? 1 : 0;
+            // รับค่า status จากฟอร์มที่ส่งมา
+            $status = $request->input('status');
+
+            // เปลี่ยนสถานะใหม่
+            $Order->status = $status;
+
 
             // บันทึกการเปลี่ยนแปลง
             $Order->save();
@@ -85,7 +89,7 @@ class OrdersController extends Controller
         }
     }
 
-    public function updateStatusbuy($id)
+    public function updateStatusbuy(Request $request, $id)
     {
         // ดึงข้อมูลคำสั่งซื้อจาก UserSellModel หรือ UserBuyModel
         $Orderbuy = UserBuyModel::find($id);
@@ -93,7 +97,10 @@ class OrdersController extends Controller
         // ตรวจสอบว่าพบคำสั่งซื้อจาก UserSellModel หรือ UserBuyModel หรือไม่
         if ($Orderbuy) {
             // เปลี่ยนสถานะ: ถ้าเป็น 0 จะเปลี่ยนเป็น 1, ถ้าเป็น 1 จะเปลี่ยนเป็น 0
-            $Orderbuy->status = ($Orderbuy->status == 0) ? 1 : 0;
+            $status = $request->input('status');
+
+            // เปลี่ยนสถานะใหม่
+            $Orderbuy->status = $status;
 
             // บันทึกการเปลี่ยนแปลง
             $Orderbuy->save();
@@ -146,17 +153,6 @@ class OrdersController extends Controller
     }
 
 
-
-
-    public function order_create()
-    {
-
-        $data['getRecord'] = ProductModel::getRecord();
-
-
-        return view('admin.Orders.orderCE', $data);
-    }
-
     public function grade(Request $request)
     {
         $productId = $request->input('product_id');
@@ -172,51 +168,10 @@ class OrdersController extends Controller
         $grade = $request->input('grade');
 
         // ดึงข้อมูลราคาตาม product_id และ grade
-        $price = PriceModel::where('product_id', $productId)->where('grade', $grade)->first();
+        $price = PriceModel::where('product_id', $productId)
+                            ->where('grade', $grade)->first();
         return response()->json($price->price_buy);
     }
-
-    public function order_create_save(Request $request)
-    {
-
-        // บันทึกข้อมูลผู้ซื้อ
-        $userbuy = new UserBuyModel;
-        $userbuy->name = trim($request->name);
-        $userbuy->last_name = trim($request->last_name);
-        $userbuy->phone = trim($request->phone);
-        $userbuy->quantity = $request->qty;
-        $userbuy->save();
-
-
-        $oderbuy = new OderBuyModel;
-        $oderbuy->user_buy_id = $userbuy->id; // เชื่อมโยงคำสั่งซื้อกับข้อมูลผู้ซื้อ
-        $oderbuy->product_id = $request->product_id; // สมมติว่าคุณส่ง product_id มาจากฟอร์ม
-        $oderbuy->grade = $request->grade; // สมมติว่าคุณส่งเกรดสินค้า
-        $oderbuy->price = $request->price; // สมมติว่าคุณส่งราคา\
-        $oderbuy->quantity = $request->qty;
-        $oderbuy->save();
-
-        $oderbuy = PriceModel::where('product_id', $request->product_id)
-            ->where('grade', $request->grade)
-            ->first();
-
-        if ($oderbuy) { // ตรวจสอบว่าพบผู้ใช้หรือไม่
-            $oderbuy->qty += trim($request->qty);
-            $oderbuy->save(); // บันทึกการเปลี่ยนแปลง
-        }
-
-        // เก็บข้อมูลใน session เพื่อส่งกลับไปยังฟอร์ม
-        session()->put('name', $request->name);
-        session()->put('last_name', $request->last_name);
-        session()->put('phone', $request->phone);
-
-
-        // ทำการบันทึกหรือส่งข้อมูลกลับหลังจากทำงานเสร็จ
-    return redirect()->back()->with('successd', 'คำสั่งซื้อของคุณถูกบันทึกเรียบร้อยแล้ว!');
-    }
-
-
-
 
     public function showReceipt()
     {

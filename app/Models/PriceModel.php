@@ -31,7 +31,6 @@ class PriceModel extends Model
             ->paginate(10);
     }
 
-
     static public function getRecordActive($id)
     {
         return self::where('price.status', '=', 0)
@@ -39,8 +38,9 @@ class PriceModel extends Model
             ->where('product_id', $id)
             ->orderBy('price.grade', 'asc')
             ->select('price.*')
-            ->get();
+            ->first();
     }
+
 
     public function product()
     {

@@ -1,52 +1,5 @@
 @extends('layouts.admin.navbar')
 
-@section('style')
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-
-    .container {
-        max-width: 1200px;
-    }
-
-    .table th,
-    .table td {
-        vertical-align: middle;
-    }
-
-    .btn-custom {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .btn-custom:hover {
-        background-color: #0056b3;
-        color: white;
-    }
-
-    .table-bordered th,
-    .table-bordered td {
-        border: 1px solid #dee2e6;
-    }
-
-    .pagination {
-        justify-content: center;
-    }
-
-    .page-item.active .page-link {
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-
-    .page-item.disabled .page-link {
-        color: #6c757d;
-        border-color: #6c757d;
-    }
-</style>
-
-@endsection
-
 @section('content')
 <div class="main-content" style="min-height: 647px;">
     <section class="section">
@@ -85,8 +38,8 @@
                                         <th>เบอร์โทร</th>
                                         <th>วันที่ทำการสั้่งซื้อ</th>
                                         <th>ยอดรวม</th>
-                                        <th>status</th>
-                                        <th>Action</th>
+                                        <th>สถานะ</th>
+                                        <th>เพิ่มเติม</th>
 
                                     </tr>
                                 </thead>
@@ -103,14 +56,57 @@
                                         <td>{{$Order->total}}</td>
 
                                         <td>
-                                            <form action="{{ route('order.updateStatus', $Order->id) }}" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการอนุมัติคำสั่งซื้อนี้?');">
-                                                @csrf
-                                                @if($Order->status == 0)
-                                                <button type="submit" class="btn btn-success">อนุมัติ</button>
-                                                @else
-                                                <button type="submit" class="btn btn-danger">ยกเลิกการอนุมัติ</button>
-                                                @endif
-                                            </form>
+
+                                            <div class="dropdown d-inline mr-2">
+                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    @if($Order->status == 0)
+                                                    รอการยืนยัน
+                                                    @elseif($Order->status == 1)
+                                                    ยืนยันแล้ว
+                                                    @elseif($Order->status == 2)
+                                                    รอการชำระเงิน
+                                                    @elseif($Order->status == 3)
+                                                    ชำระเงินแล้ว
+                                                    @elseif($Order->status == 4)
+                                                    กำลังจัดเตรียมสินค้า
+                                                    @elseif($Order->status == 5)
+                                                    จัดเตรียมสำเร็จ
+                                                    @elseif($Order->status == 6)
+                                                    สำเร็จ
+                                                    @elseif($Order->status == 7)
+                                                    ยกเลิก
+                                                    @endif
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <form action="{{ route('order.updateStatus', $Order->id) }}" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการอัปเดตสถานะนี้?');">
+                                                        @csrf
+
+                                                        <!-- สถานะ 1: ยืนยันแล้ว -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="1">ยืนยันแล้ว</button>
+
+                                                        <!-- สถานะ 2: รอการชำระเงิน -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="2">รอการชำระเงิน</button>
+
+                                                        <!-- สถานะ 3: ชำระเงินแล้ว -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="3">ชำระเงินแล้ว</button>
+
+                                                        <!-- สถานะ 4: กำลังจัดเตรียมสินค้า -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="4">กำลังจัดเตรียมสินค้า</button>
+
+                                                        <!-- สถานะ 5: จัดเตรียมสำเร็จ -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="5">จัดเตรียมสำเร็จ</button>
+
+                                                        <!-- สถานะ 6: สำเร็จ -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="6">สำเร็จ</button>
+
+                                                        <!-- สถานะ 7: ยกเลิก -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="7">ยกเลิก</button>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
                                         </td>
 
                                         <td>
@@ -143,11 +139,7 @@
 
                     <div class="card-header">
                         <h4>การขาย</h4>
-                        <div class="col-9 col-md-9 col-lg-9">
-                            <div class="buttons">
-                                <a href="{{route('order_create')}}" class="btn btn-sm btn-warning">รับซื้อ</a>
-                            </div>
-                        </div>
+            
                         <div class="card-header-action">
 
                             <form method="get">
@@ -176,7 +168,7 @@
                                         <th>เบอร์โทร</th>
                                         <th>วันที่ทำการขาย</th>
                                         <th>สถานะ</th>
-                                        <th>Action</th>
+                                        <th>เพิ่มเติม</th>
 
                                     </tr>
                                 </thead>
@@ -187,24 +179,63 @@
                                     <tr>
                                         @foreach ($getOrderBuy as $Orderbuy )
 
-                                        <td></td>
+                                        
                                         <td>{{$Orderbuy->id}}</td>
                                         <td>{{$Orderbuy->name}} {{$Orderbuy->last_name}}</td>
+                                        <td>{{$Orderbuy->title}}</td>
                                         <td>{{$Orderbuy->quantity}}</td>
                                         <td>{{ substr($Orderbuy->phone, 0, 3) }}-{{ substr($Orderbuy->phone, 3, 3) }}-{{ substr($Orderbuy->phone, 6) }}</td>
                                         <td>{{ \Carbon\Carbon::parse($Orderbuy->created_at)->locale('th')->translatedFormat('d M Y H:i')}}</td>
 
-
                                         <td>
-                                            <form action="{{ route('order.updateStatusbuy', $Orderbuy->id) }}" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการอนุมัติคำสั่งขายนี้?');">
-                                                @csrf
-                                                @if($Orderbuy->status == 0)
-                                                <button type="submit" class="btn btn-success">อนุมัติ</button>
-                                                @else
-                                                <button type="submit" class="btn btn-danger">ยกเลิกการอนุมัติ</button>
-                                                @endif
-                                            </form>
+                                            <div class="dropdown d-inline mr-2">
+                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    @if($Orderbuy->status == 0)
+                                                    รอการยืนยัน
+                                                    @elseif($Orderbuy->status == 1)
+                                                    ยืนยันแล้ว
+                                                    @elseif($Orderbuy->status == 2)
+                                                    รอตรวจสอบ
+                                                    @elseif($Orderbuy->status == 3)
+                                                    รอวันเก็บเกียว
+                                                    @elseif($Orderbuy->status == 4)
+                                                    สำเร็จ
+                                                    @elseif($Orderbuy->status == 5)
+                                                    ยกเลิก
+                                                    
+                                                    @endif
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <form action="{{ route('order.updateStatusbuy', $Orderbuy->id) }}" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการอนุมัติคำสั่งขายนี้?');">
+                                                        @csrf
+
+                                                        <!-- สถานะ 1: ยืนยันแล้ว -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="1">ยืนยันแล้ว</button>
+
+                                                        <!-- สถานะ 2: รอการชำระเงิน -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="2">รอตรวจสอบ</button>
+
+                                                        <!-- สถานะ 3: ชำระเงินแล้ว -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="3">รอวันเก็บเกียว</button>
+
+                                                        <!-- สถานะ 6: สำเร็จ -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="4">สำเร็จ</button>
+
+                                                        <!-- สถานะ 7: ยกเลิก -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="5">ยกเลิก</button>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+
                                         </td>
+
+
+
+
+
+
+                                        
 
                                         <td>
                                             <div class="btn-group mb-3" role="group" aria-label="Basic example">
