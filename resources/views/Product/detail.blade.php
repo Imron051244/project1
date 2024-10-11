@@ -170,7 +170,7 @@
                                                             <input type="number" name="quantity" min="20" max="100" step="1" data-decimals="0">
                                                         </div>
                                                     </div>
-                                                    <span class="control-label">(คิดเป็นต้น)</span>
+                                                    <span class="control-label">(คิดเป็นลูก)</span>
                                                 </div>
                                                 @error('quantity')
                                                 <span class="text-danger" style="color: red;">{{$message}}</span>

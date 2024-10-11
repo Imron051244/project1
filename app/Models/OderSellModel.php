@@ -11,6 +11,12 @@ class OderSellModel extends Model
 
     protected $table = 'sell_d';
 
+
+    static public function getSingle($id)
+    {
+        return self::find($id);
+    }
+
     public function getProduct()
     {
         return $this->belongsTo(ProductModel::class, 'product_id');

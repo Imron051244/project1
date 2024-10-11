@@ -24,6 +24,14 @@
     @yield('style')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@100..900&display=swap');
+
+        body {
+            font-family: 'Noto Serif Thai', serif;
+        }
+    </style>
+
 </head>
 
 <body class="layout-4">

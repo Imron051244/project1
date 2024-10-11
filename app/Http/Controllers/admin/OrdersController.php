@@ -143,14 +143,26 @@ class OrdersController extends Controller
         return view('admin.Orders.orderED', $data);
     }
 
-    public function order_editsell(Request $request, $id)
+    public function order_editsell($id)
     {
-        $data['getProductPrices'] = ProductModel::getPrices($id);
-        $data['getdetailsell'] = UsersellModel::getdetail($id);
-        $data['getSingle'] = UsersellModel::getSingle($id);
+        $data['getSingle'] = OderSellModel::getSingle($id);
 
         return view('admin.Orders.orderED', $data);
     }
+
+    public function order_editsell_update($id, Request $request)
+    {
+        $editsell = OderSellModel::getSingle($id);
+        $editsell->grade = trim($request->grade);
+        $editsell->price = trim($request->price);
+        $editsell->quantity = trim($request->qty);
+        $editsell->total_price = trim($request->total_price);
+        $editsell->save();
+
+        return redirect("/orders/detail-sell/{$id}")->with('successa', 'อัปเดตข้อมูลการขายสำเร็จ!');
+    }
+
+
 
 
     public function grade(Request $request)
@@ -169,27 +181,16 @@ class OrdersController extends Controller
 
         // ดึงข้อมูลราคาตาม product_id และ grade
         $price = PriceModel::where('product_id', $productId)
-                            ->where('grade', $grade)->first();
+            ->where('grade', $grade)->first();
         return response()->json($price->price_buy);
     }
 
-    public function showReceipt()
+    public function showReceipt($id)
     {
-        // ข้อมูลที่จะแสดงในใบเสร็จ (เปลี่ยนข้อมูลตามจริงที่คุณมี)
-        $receiptData = [
-            'order_number' => '00123',
-            'customer_name' => 'นายสมชาย',
-            'customer_address' => '123/4 ซอยสุขุมวิท 49 กรุงเทพฯ',
-            'customer_phone' => '081-234-5678',
-            'items' => [
-                ['name' => 'มะม่วง', 'quantity' => '3 กิโลกรัม', 'price_per_unit' => '80 บาท/กิโลกรัม', 'total' => '240 บาท'],
-                ['name' => 'กล้วย', 'quantity' => '2 หวี', 'price_per_unit' => '50 บาท/หวี', 'total' => '100 บาท'],
-                ['name' => 'ส้ม', 'quantity' => '5 กิโลกรัม', 'price_per_unit' => '60 บาท/กิโลกรัม', 'total' => '300 บาท'],
-                ['name' => 'แตงโม', 'quantity' => '1 ลูก', 'price_per_unit' => '120 บาท/ลูก', 'total' => '120 บาท'],
-            ],
-            'total_amount' => '760 บาท',
-        ];
+        $data['getdetailsell'] = UserSellModel::getdetail($id);
+        $data['getSingle'] = UserSellModel::getSingle($id);
 
-        return view('admin.Orders.receipt', ['receiptData' => $receiptData]);
+
+        return view('admin.Orders.receipt', $data);
     }
 }

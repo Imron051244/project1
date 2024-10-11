@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 <div class="main-content" style="min-height: 647px;">
     <section class="section">
         <div class="section-header">
@@ -110,22 +108,24 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4>รายละเอียดสินค้า</h4>
+
                                 @if (!empty($getdetailsell))
                                 <div class="card-header-action">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <a class="btn btn-success" href="{{route('showReceipt')}}">ออกใบเสร็จ</a>
+                                            <a class="btn btn-success" href="{{route('showReceipt', $getSingle->id )}}">ออกใบเสร็จ</a>
                                         </div>
                                     </div>
                                 </div>
                                 @endif
 
 
+
                                 @if (!empty($getdetailbuy))
                                 <div class="card-header-action">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <a class="btn btn-success" href="{{route('showReceipt')}}">ออกใบเสร็จ</a>
+                                            <a class="btn btn-success" href="">ออกใบเสร็จ</a>
                                         </div>
                                     </div>
                                 </div>
@@ -136,13 +136,22 @@
 
 
                             <div class="card-body">
+                                @if(session('successa'))
+                                <div class="alert alert-success alert-dismissible show fade">
+                                    <div class="alert-body">
+                                        <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                        {{ session('successa') }}
+                                    </div>
+                                </div>
+                                @endif
                                 <table class="table">
+
                                     <thead>
                                         @if (!empty($getdetailbuy))
                                         <tr>
                                             <th>ชื่อสินค้า</th>
                                             <th>รูปสินค้า</th>
-                                            <th>ประมานกีต้น</th>
+                                            <th>ประมานกีลูก</th>
                                             <th>เกรดสินค้า</th>
                                             <th>จำนวน</th>
                                             <th>ราคาต่อหน่วย</th>
@@ -156,8 +165,8 @@
                                             <th>ชื่อสินค้า</th>
                                             <th>รูปสินค้า</th>
                                             <th>เกรดสินค้า</th>
-                                            <th>ปริมาณ</th>
-                                            <th>ราคา/กิโลกรับ</th>
+                                            <th>ปริมาณกีโลกรัม</th>
+                                            <th>ราคา/กิโลกรัม</th>
                                             <th>ราคารวม</th>
                                             <th>เพิ่มเติม</th>
                                         </tr>
@@ -166,6 +175,11 @@
                                     <tbody>
                                         @if (!empty($getdetailsell))
                                         <!-- การซื้อ -->
+                                        @php
+                                        $totalAmount = 0; // ตัวแปรสำหรับเก็บยอดรวมทั้งหมด
+                                        $total_QTY = 0;
+                                        @endphp
+
                                         @foreach ($getSingle->getItem as $detailSell)
 
                                         @php
@@ -197,16 +211,19 @@
                                                 <div class="card-header-action">
                                                     <div class="input-group">
                                                         <div class="input-group-btn">
-                                                            <a class="btn btn-success" href="#">แก้ไข้</a>
+                                                            <a class="btn btn-success" href="{{route('order_editsell', $getSingle->id)}}">แก้ไข้</a>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </td>
 
-
-
                                         </tr>
+
+                                        @php
+                                        // เพิ่มราคาของแต่ละรายการในยอดรวมทั้งหมด
+                                        $totalAmount += $detailSell->total_price;
+                                        $total_QTY += $detailSell->quantity
+                                        @endphp
                                         @endforeach
 
                                         @elseif (!empty($getdetailbuy))
@@ -272,14 +289,14 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p><strong>ยอดรวมผมไม้:</strong> ฿ </p>
-                                        <p><strong>ยอดรวมทั้งหมด:</strong> ฿ </p>
+                                        <p><strong>ยอดรวมผมไม้:</strong> {{$total_QTY}} กีโลกรัม</p>
+                                        <p><strong>ยอดรวมทั้งหมด:</strong> ฿ {{ number_format($totalAmount, 2) }} </p>
 
                                     </div>
 
                                     <div class="col-md-6">
                                         <h4>ยอดรวม</h4>
-                                        <p><strong>ยอดรวมที่ต้องจ่าย:</strong> ฿ </p>
+                                        <p><strong>ยอดรวมที่ต้องจ่าย:</strong> ฿ {{ number_format($totalAmount, 2) }} </p>
 
                                     </div>
                                 </div>

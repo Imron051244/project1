@@ -18,7 +18,8 @@
         }
 
         body {
-            font-family: 'Noto Serif Thai', serif; /* ใช้ฟอนต์ Noto Serif Thai */
+            font-family: 'Noto Serif Thai', serif;
+            /* ใช้ฟอนต์ Noto Serif Thai */
             margin: 0;
             padding: 0;
             display: flex;
@@ -37,7 +38,8 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
             position: relative;
-            min-height: 800px; /* เพิ่มความสูงขั้นต่ำให้ใบเสร็จ */
+            min-height: 800px;
+            /* เพิ่มความสูงขั้นต่ำให้ใบเสร็จ */
         }
 
         .header {
@@ -110,7 +112,8 @@
         /* ปรับตำแหน่งของปุ่มพิมพ์ใบเสร็จให้อยู่ด้านล่างสุดของใบเสร็จ */
         .print-button {
             position: absolute;
-            bottom: 20px; /* เว้นระยะห่างจากด้านล่าง */
+            bottom: 20px;
+            /* เว้นระยะห่างจากด้านล่าง */
             left: 50%;
             transform: translateX(-50%);
             padding: 10px 20px;
@@ -168,25 +171,30 @@
 </head>
 
 <body>
+    @if (!empty($getdetailsell))
     <div class="receipt-container">
         <!-- Header Section -->
         <div class="header">
             <h1>ใบเสร็จการซื้อขายผลไม้</h1>
-            <p>หมายเลขใบสั่งซื้อ: {{ $receiptData['order_number'] }}</p>
+            <p>หมายเลขใบสั่งซื้อ: {{$getdetailsell->users_sell_id}} </p>
         </div>
 
         <!-- Company Information -->
         <div class="company-info">
-            <p>ร้านผลไม้สด "สวนสวย"</p>
+            <p>ร้านผลไม้สด "สหายผลไม้"</p>
             <p>ที่อยู่: 45/12 ถนนสวนมะพร้าว กรุงเทพฯ 10100</p>
-            <p>โทร: 02-555-6789</p>
+            <p>โทร: 080-705-8890</p>
         </div>
 
         <!-- Order Information -->
         <div class="order-info">
-            <p><strong>ชื่อลูกค้า:</strong> {{ $receiptData['customer_name'] }}</p>
-            <p><strong>ที่อยู่:</strong> {{ $receiptData['customer_address'] }}</p>
-            <p><strong>เบอร์โทร:</strong> {{ $receiptData['customer_phone'] }}</p>
+            <p><strong>ชื่อลูกค้า:</strong> {{$getdetailsell->name}} {{$getdetailsell->last_name}} </p>
+            <p><strong>วันที่สั่งซื้อ:</strong> {{ \Carbon\Carbon::parse($getdetailsell->created_at)->locale('th')->translatedFormat('d M Y H:i')}}</p>
+            <p><strong>ที่อยู่:</strong> {{$getdetailsell->address}} ตำบล {{$getdetailsell->name_th}}
+                อำเภอ {{$getdetailsell->districts}} จังหวัด {{$getdetailsell->provinces}}
+                {{$getdetailsell->zip_code}}
+            </p>
+            <p><strong>เบอร์โทรศัพท์:</strong> {{ substr($getdetailsell->phone, 0, 3) }}-{{ substr($getdetailsell->phone, 3, 3) }}-{{ substr($getdetailsell->phone, 6) }}</p>
         </div>
 
         <!-- Product Information -->
@@ -194,28 +202,40 @@
             <table>
                 <thead>
                     <tr>
-                        <th>สินค้า</th>
-                        <th>จำนวน</th>
-                        <th>ราคาสินค้า</th>
+                        <th>สินค้า/เกรด</th>
+                        <th>ปริมาณ/กีโลกรัม</th>
+                        <th>ราคา/กีโลกรัม</th>
                         <th>รวม</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($receiptData['items'] as $item)
+                    @php
+                    $totalAmount = 0; // ตัวแปรสำหรับเก็บยอดรวมทั้งหมด
+                    $total_QTY = 0;
+                    @endphp
+                    @foreach ($getSingle->getItem as $detailSell)
                     <tr>
-                        <td>{{ $item['name'] }}</td>
-                        <td>{{ $item['quantity'] }}</td>
-                        <td>{{ $item['price_per_unit'] }}</td>
-                        <td>{{ $item['total'] }}</td>
+                        <td>{{$detailSell->getProduct->title}} x {{$detailSell->grade}}</td>
+                        <td>{{$detailSell->quantity}}</td>
+                        <td>฿ {{ number_format($detailSell->price, 2) }} </td>
+                        <td>฿ {{ number_format($detailSell->total_price, 2) }}</td>
                     </tr>
+
+                    @php
+                    // เพิ่มราคาของแต่ละรายการในยอดรวมทั้งหมด
+                    $totalAmount += $detailSell->total_price;
+                    $total_QTY += $detailSell->quantity
+                    @endphp
                     @endforeach
+
                 </tbody>
             </table>
         </div>
 
         <!-- Total Amount -->
         <div class="total">
-            <p><strong>ยอดรวม:</strong> {{ $receiptData['total_amount'] }}</p>
+        <p><strong>ยอดรวมผลไม้:</strong> {{ number_format($total_QTY,2) }} กีโลกรัม </p>
+            <p><strong>ยอดรวมที่ต้องจ่าย:</strong> {{ number_format($totalAmount, 2) }} บาท </p>
         </div>
 
         <!-- Footer Section -->
@@ -226,7 +246,7 @@
         <!-- Print Button -->
         <button class="print-button" onclick="printReceipt()">พิมพ์ใบเสร็จ</button>
     </div>
-
+    @endif
     <script>
         function printReceipt() {
             window.print();

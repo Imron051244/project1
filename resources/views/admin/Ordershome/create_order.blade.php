@@ -78,14 +78,14 @@
 
                                             <div class="form-group col-md-4">
                                                 <label for="inputPassword4">ราคา</label>
-                                                <input type="text" name="price[]" class="form-control price" data-row-id="1">
+                                                <input type="number" name="price[]" class="form-control price" data-row-id="1">
                                                 @error('price')
                                                 <span class="text-danger">{{$message}}</span>
                                                 @enderror
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="inputPassword4">จำนวน</label>
-                                                <input type="text" name="qty[]" class="form-control qty" data-row-id="1">
+                                                <input type="number" name="qty[]" class="form-control qty" data-row-id="1">
                                                 @error('qty')
                                                 <span class="text-danger">{{$message}}</span>
                                                 @enderror
@@ -93,18 +93,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group" id="Addproduct">
-                                    </div>
-
-                                    <div id="Append">
-                                       
-                                    </div>
-
-
                                 </div>
 
                                 <div class="card-footer text-right">
-                                    <input type="button" class="btn btn-info mr-1 Addproduct" value="เพิ่มรายการสินค้า">
                                     <input type="button" class="btn btn-success mr-1 Addgrade" value="เพิ่มเกรดสินค้า">
                                     <input type="submit" class="btn btn-primary mr-1" value="บันทึก">
                                 </div>
@@ -138,11 +129,11 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">ราคา</label>
-                    <input type="text" name="price[]" class="form-control price" data-row-id="${i}">
+                    <input type="number" name="price[]" class="form-control price" data-row-id="${i}">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputPassword4">จำนวน</label>
-                    <input type="text" name="qty[]" class="form-control qty" data-row-id="${i}">
+                    <input type="number" name="qty[]" class="form-control qty" data-row-id="${i}">
                 </div>
             </div>
             `;
@@ -155,24 +146,6 @@
                 alert("สามารถเพิ่มเกรดได้ 3 เกรด");
             }
         }
-    });
-
-    $('body').on('click', '.Addproduct', function() {
-
-        // HTML ที่จะแสดงเมื่อคลิกปุ่ม Add
-        var html = `
-            <label for="inputAddress">ชื่อสินค้า</label>
-                <select name="product_id" id="product_id" class="form-control">
-                    <option disabled selected>โปรดเลือกสินค้า</option>
-                        @foreach ($getRecord as $product)
-                            <option value="{{$product->id}}">{{$product->title}}</option>
-                        @endforeach
-                </select>
-                                    
-            `;
-
-        $('#Addproduct').append(html);
-
     });
 
 
