@@ -18,7 +18,9 @@ class OrdershomeController extends Controller
 {
     public function order_home()
     {
-        return view('admin.Ordershome.list_order');
+        $data['getRecord'] = BuyhomeModel::getRecord();
+        
+        return view('admin.Ordershome.list_order', $data);
     }
 
     public function order_home_create()
@@ -29,7 +31,6 @@ class OrdershomeController extends Controller
 
     public function order_create_save(Request $request)
     {
-        dd($request->all());
         // บันทึกข้อมูลผู้ซื้อ
         $buy_home = new BuyhomeModel;
         $buy_home->name = trim($request->name);
@@ -37,31 +38,35 @@ class OrdershomeController extends Controller
         $buy_home->phone = trim($request->phone);
         $buy_home->save();
 
+            // บันทึกข้อมูล ส่งมาจากฟอร์มหรือไม่
+            foreach ($request->grade as $index => $grade) {
+                // ตรวจสอบข้อมูลทีละรายการในลูป
+                $buy_d = new Buy_dhomeModel;
+                $buy_d->buy_home_id = $buy_home->id; // เชื่อมโยงกับข้อมูลผู้ซื้อ
+                $buy_d->product_id = $request->product_id; // สมมติว่ามี product_id มาจากฟอร์ม
+                $buy_d->grade = $grade;
+                $buy_d->price = $request->price[$index]; //การเปลียน array เป็น string
+                $buy_d->qty_buy = $request->qty[$index];
 
-        $buy_d = new Buy_dhomeModel;
-        $buy_d->buy_home_id = $buy_home->id; // เชื่อมโยงคำสั่งซื้อกับข้อมูลผู้ซื้อ
-        $buy_d->product_id = $request->product_id; // สมมติว่าคุณส่ง product_id มาจากฟอร์ม
-        $buy_d->grade = trim($request->grade); // สมมติว่าคุณส่งเกรดสินค้า
-        $buy_d->price = trim($request->price); // สมมติว่าคุณส่งราคา\
-        $buy_d->qty_buy = trim($request->qty);
-        $buy_d->price_total = $request->price * $request->qty;
-        $buy_d->save();
+                // คำนวณราคาทั้งหมด
+                $buy_d->price_total = $buy_d->price * $buy_d->qty_buy;
+                $buy_d->save(); 
 
-        $buy_d = PriceModel::where('product_id', $request->product_id)
-            ->where('grade', $request->grade)
-            ->first();
+                // บันทึกสินค้าในคลังสินค้า
+                $buy_d = PriceModel::where('product_id', $request->product_id)
+                    ->where('grade', $request->grade)
+                    ->first();
 
-        if ($buy_d) { // ตรวจสอบว่าพบผู้ใช้หรือไม่
-            $buy_d->qty += trim($request->qty);
-            $buy_d->save(); // บันทึกการเปลี่ยนแปลง
-        }
+                if ($buy_d) {
+                    $buy_d->qty += $request->qty[$index];
+                    $buy_d->save();
+                }
+            }
+        
 
-        // เก็บข้อมูลใน session เพื่อส่งกลับไปยังฟอร์ม
-        session()->put('name', $request->name);
-        session()->put('last_name', $request->last_name);
-        session()->put('phone', $request->phone);
+        
 
-        // ทำการบันทึกหรือส่งข้อมูลกลับหลังจากทำงานเสร็จ
-        return redirect()->back()->with('successd', 'คำสั่งซื้อของคุณถูกบันทึกเรียบร้อยแล้ว!');
+        // ส่งกลับไปยังฟอร์มพร้อมข้อความสำเร็จ
+        return redirect('/orders-home')->with('successd', 'คำสั่งซื้อของคุณถูกบันทึกเรียบร้อยแล้ว!');
     }
 }

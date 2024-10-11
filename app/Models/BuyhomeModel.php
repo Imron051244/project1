@@ -11,4 +11,12 @@ class BuyhomeModel extends Model
 
     protected $table = 'buy_home';
 
+    static public function getRecord()
+    {
+        return self::where('buy_home.is_delete', '=', 0)  
+            ->select('buy_home.*')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+    }
+
 }
