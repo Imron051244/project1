@@ -12,7 +12,7 @@
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route('order_create_save')}}" method="post">
+                        <form action="{{route('order_e_save', $getSingle->id)}}" method="post">
                             <!-- Flash message -->
                            
                             {{ csrf_field() }}
@@ -21,30 +21,6 @@
                                     <h4>เพิ่มสินค้าที่รับซื้อ</h4>
                                 </div>
                                 <div class="card-body">
-
-                                    <div class="form-row">
-                                        <div class="form-group col-md-4">
-                                            <label for="inputEmail4">ชื่อ</label>
-                                            <input type="text" name="name" value="{{ old('name')}}" class="form-control">
-                                            @error('name')
-                                            <span class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="inputPassword4">สกุล</label>
-                                            <input type="text" name="last_name" value="{{ old('last_name') }}" class="form-control">
-                                            @error('last_name')
-                                            <span class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="inputPassword4">เบอร์โทร</label>
-                                            <input type="tell" name="phone" value="{{ old('phone' )}}" class="form-control">
-                                            @error('phone')
-                                            <span class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
 
                                     <div class="form-group">
                                         <label for="inputAddress">ชื่อสินค้า</label>

@@ -87,6 +87,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/order/sell-status/{id}', [OrdersController::class, 'updateStatus'])->name('order.updateStatus');
     Route::get('/orders/edit-sell/{id}', [OrdersController::class, 'order_editsell'])->name('order_editsell');
     Route::post('/orders/edit-sell/{id}/updete', [OrdersController::class, 'order_editsell_update'])->name('order_editsell_update');
+    Route::get('/orders/showReceipt/{id}', [OrdersController::class, 'showReceipt'])->name('showReceipt');
     
 
 
@@ -101,9 +102,16 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/orders-home', [OrdershomeController::class, 'order_home'])->name('order_home');
     Route::get('/orders-home/create', [OrdershomeController::class, 'order_home_create'])->name('order_home_create');
     Route::post('/orders/create-buy/save', [OrdershomeController::class, 'order_create_save'])->name('order_create_save');
-
-
-    Route::get('/orders/showReceipt/{id}', [OrdersController::class, 'showReceipt'])->name('showReceipt');
+    Route::get('/orders-home/detail/{id}', [OrdershomeController::class, 'order_detail_home'])->name('order_deile_home');
+    Route::post('/orders/{id}/status-home', [OrdershomeController::class, 'update_status_buyhome'])->name('update_status_buyhome');
+    Route::get('/orders/edit/{id}', [OrdershomeController::class, 'order_home_edit'])->name('order_home_edit');
+    Route::post('/orders/edit/{id}/updete', [OrdershomeController::class, 'order_save_edit'])->name('order_save_edit');
+    Route::get('/orders-home/create-buy/{id}', [OrdershomeController::class, 'order_e_create'])->name('order_e_create');
+    Route::post('/orders/create/save/{id}', [OrdershomeController::class, 'order_e_save'])->name('order_e_save');
+    Route::get('/orders-home/delete/{id}', [OrdershomeController::class, 'ordder_home_delete'])->name('ordder_home_delete');
+    Route::get('/orders-home/showReceipt/{id}', [OrdershomeController::class, 'showReceipt'])->name('showReceipt');
+    
+    
     
 });
 

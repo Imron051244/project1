@@ -68,11 +68,13 @@
     <script src="{{asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js')}}"></script>
 
     <!-- Page Specific JS File -->
-    @yield('script')
+
 
     <!-- Template JS File -->
     <script src="{{asset('js/scripts.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
+
+    @yield('script')
 
 </body>
 

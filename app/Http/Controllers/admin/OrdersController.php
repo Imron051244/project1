@@ -146,7 +146,6 @@ class OrdersController extends Controller
     public function order_editsell($id)
     {
         $data['getSingle'] = OderSellModel::getSingle($id);
-
         return view('admin.Orders.orderED', $data);
     }
 
@@ -159,11 +158,17 @@ class OrdersController extends Controller
         $editsell->total_price = trim($request->total_price);
         $editsell->save();
 
+        $buy_d = PriceModel::where('product_id', $request->product_id)
+            ->where('grade', $request->grade)
+            ->first();
+
+        if ($buy_d) {
+            $buy_d->qty += trim($request->qty);
+            $buy_d->save();
+        }
+
         return redirect("/orders/detail-sell/{$id}")->with('successa', 'อัปเดตข้อมูลการขายสำเร็จ!');
     }
-
-
-
 
     public function grade(Request $request)
     {

@@ -68,19 +68,50 @@
                                         <td>{{$list->name}} {{$list->last_name}}</td>
                                         <td>{{ substr($list->phone, 0, 3) }}-{{ substr($list->phone, 3, 3) }}-{{ substr($list->phone, 6) }}</td>
                                         <td>{{ \Carbon\Carbon::parse($list->created_at)->locale('th')->translatedFormat('d M Y H:i')}}</td>
-                                        
-                                        <td></td>
+
+                                        <td>
+                                            <div class="dropdown d-inline mr-2">
+                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    @if($list->status == 0)
+                                                    รอการยืนยัน
+                                                    @elseif($list->status == 1)
+                                                    ยืนยันแล้ว
+                                                    @elseif($list->status == 2)
+                                                    สำเร็จ
+                                                    @elseif($list->status == 3)
+                                                    ยกเลิก
+
+                                                    @endif
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <form action="{{ route('update_status_buyhome', $list->id) }}" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการอนุมัติคำสั่งขายนี้?');">
+                                                        @csrf
+
+                                                        <!-- สถานะ 1: ยืนยันแล้ว -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="1">ยืนยันแล้ว</button>
+
+                                                        <!-- สถานะ 2: สำเร็จ -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="2">สำเร็จ</button>
+
+                                                        <!-- สถานะ 3: ยกเลิก -->
+                                                        <button class="dropdown-item" type="submit" name="status" value="3">ยกเลิก</button>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
 
                                         <td>
                                             <div class="btn-group mb-3" role="group" aria-label="Basic example">
                                                 <a onclick="return confirm('คุณต้องการลบราคา หรือไม่ ?')"
                                                     type="button" href=""
                                                     class="btn btn-danger">ลบ</a>
-                                                <a type="button" href=""
+                                                <a type="button" href="{{route('order_deile_home', $list->id )}}"
                                                     class="btn btn-warning">รายละเอียด</a>
 
                                             </div>
                                         </td>
+
                                     </tr>
 
                                     @endforeach
