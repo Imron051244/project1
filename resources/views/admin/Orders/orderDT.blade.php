@@ -113,7 +113,7 @@
                                 <div class="card-header-action">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <a class="btn btn-success" href="{{route('showReceipt', $getSingle->id )}}">ออกใบเสร็จ</a>
+                                            <a class="btn btn-success" href="{{route('showReceipt_sell', $getSingle->id )}}">ออกใบเสร็จ</a>
                                         </div>
                                     </div>
                                 </div>

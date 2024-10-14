@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\PriceController;
 use App\Http\Controllers\admin\OrdersController;
 use App\Http\Controllers\admin\OrdershomeController;
+use App\Http\Controllers\admin\OrdersbuyController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PaymentController;
@@ -81,14 +82,20 @@ Route::middleware(['admin'])->group(function () {
         Route::get('pricedelete/{id}', 'delete')->name('deleteprc');
     });
 
+    // การซื้อออลไลน์
     Route::get('/orders', [OrdersController::class, 'Order'])->name('orders');
     Route::get('/orders/delete/{id}', [OrdersController::class, 'order_delete']);
     Route::get('/orders/detail-sell/{id}', [OrdersController::class, 'order_detailsell'])->name('order_detailsell');
     Route::post('/order/sell-status/{id}', [OrdersController::class, 'updateStatus'])->name('order.updateStatus');
     Route::get('/orders/edit-sell/{id}', [OrdersController::class, 'order_editsell'])->name('order_editsell');
     Route::post('/orders/edit-sell/{id}/updete', [OrdersController::class, 'order_editsell_update'])->name('order_editsell_update');
-    Route::get('/orders/showReceipt/{id}', [OrdersController::class, 'showReceipt'])->name('showReceipt');
-    
+    Route::get('/orders/showReceipt/{id}', [OrdersController::class, 'showReceipt'])->name('showReceipt_sell');
+
+    // การรับซื้อสินค้า
+    Route::get('/orders-buy', [OrdersbuyController::class, 'list_order_buy'])->name('list_order_buy');
+    Route::get('/orders-buy/detail', [OrdersbuyController::class, 'detail_order_buy'])->name('detail_order_buy');
+
+
 
 
     Route::post('/orders/{id}/status-buy', [OrdersController::class, 'updateStatusbuy'])->name('order.updateStatusbuy');
@@ -109,10 +116,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/orders-home/create-buy/{id}', [OrdershomeController::class, 'order_e_create'])->name('order_e_create');
     Route::post('/orders/create/save/{id}', [OrdershomeController::class, 'order_e_save'])->name('order_e_save');
     Route::get('/orders-home/delete/{id}', [OrdershomeController::class, 'ordder_home_delete'])->name('ordder_home_delete');
-    Route::get('/orders-home/showReceipt/{id}', [OrdershomeController::class, 'showReceipt'])->name('showReceipt');
-    
-    
-    
+    Route::get('/orders-home/showReceipt/{id}', [OrdershomeController::class, 'showReceipt'])->name('showReceipt_buyhome');
 });
 
 Route::controller(AuthController::class)->group(function () {
@@ -134,6 +138,8 @@ Route::get('/list', [ProductsController::class, 'list'])->name('list');
 Route::get('/product/{title?}', [ProductsController::class, 'getCategoryName'])->name('categoryName');
 Route::get('/products/{id?}', [ProductsController::class, 'getCategoryName'])->name('detail');
 Route::get('/produstb', [ProductsController::class, 'getProductPriceByGrade']);
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 
 
@@ -141,9 +147,6 @@ Route::middleware(['user'])->group(function () {
     Route::get('/Home-buy', [HomeController::class, 'userbuyHome'])->name('userbuy.home');
     Route::get('/home-sell', [HomeController::class, 'sellerHome'])->name('seller.home');
 });
-
-Route::get('/contact', [HomeController::class, 'contact']);
-Route::get('/about', [HomeController::class, 'about']);
 
 
 Route::get('checkout', [PaymentController::class, 'checkout']);
@@ -158,5 +161,3 @@ Route::post('add-to-cart', [PaymentController::class, 'add_to_cart']);
 Route::get('cart', [PaymentController::class, 'cart'])->name('cart');
 Route::post('update_cart', [PaymentController::class, 'update_cart']);
 Route::get('cart/delete/{id}', [PaymentController::class, 'cart_delete']);
-
-

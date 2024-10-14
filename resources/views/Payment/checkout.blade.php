@@ -164,14 +164,14 @@
 
                                         <div class="form-group">
                                             <div class="col-md-6">
-                                                <label>First Name</label>
+                                                <label>ชื่อ</label>
                                                 <input type="text" value="{{ Auth::user()->name}}" name="name" class="form-control">
                                                 @error('name')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                             <div class="col-md-6">
-                                                <label>Last Name</label>
+                                                <label>สกุล</label>
                                                 <input type="text" value="{{ Auth::user()->last_name}}" name="last_Name" class="form-control">
                                                 @error('last_Name')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -181,7 +181,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <label>Phone</label>
+                                                <label>เบอร์โทร</label>
                                                 <input type="phone" value="{{ Auth::user()->phone}}" name="phone" class="form-control">
                                                 @error('phone')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -191,7 +191,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <label>Address </label>
+                                                <label>ที่อยู่</label>
                                                 <input type="text" value="{{ Auth::user()->address}}" name="address" class="form-control">
                                                 @error('address')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -204,7 +204,7 @@
 
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <label>Province</label>
+                                                <label>จังหวัด</label>
                                                 <select id="provinces" value="" name="province_id" class="form-control">
                                                     @foreach($provinces as $province)
                                                     <option value="{{ $province->id }}" {{ old('province_id') == $province->id ? 'selected' : '' }}>
@@ -218,7 +218,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <label>District</label>
+                                                <label>อำเภอ</label>
                                                 <select id="amphures" name="district_id" class="form-control">
                                                     <!-- จะมีการเติมข้อมูลผ่าน Ajax -->
                                                 </select>
@@ -229,7 +229,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <label>SubDistrict</label>
+                                                <label>ตำบล</label>
                                                 <select id="districts" name="subdistrict_id" class="form-control">
                                                     <!-- จะมีการเติมข้อมูลผ่าน Ajax -->
                                                 </select>
@@ -240,7 +240,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <label>zip code</label>
+                                                <label>รหัสไปรษณี</label>
                                                 <input class="form-control" type="text" id="zipcode" readonly>
                                                 @error('zip_code')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -270,11 +270,11 @@
                                         <table class="cart-summary table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th class="width-80 text-center">Image</th>
-                                                    <th>Name</th>
-                                                    <th class="width-100 text-center">Unit price</th>
-                                                    <th class="width-100 text-center">Qty</th>
-                                                    <th class="width-100 text-center">Total</th>
+                                                    <th class="width-80 text-center">รูปภาพ</th>
+                                                    <th>สินค้า/เกรด</th>
+                                                    <th class="width-100 text-center">ราคา</th>
+                                                    <th class="width-100 text-center">ปริมาณ/กีโลกรัม</th>
+                                                    <th class="width-100 text-center">ยอดรวม</th>
                                                 </tr>
                                             </thead>
 
@@ -303,13 +303,13 @@
                                                             x {{$gradeName}}</a>
                                                     </td>
                                                     <td class="text-center">
-                                                        ${{ $header_cart->price }}
+                                                        ฿{{ $header_cart->price }}
                                                     </td>
                                                     <td class="text-center">
                                                         {{ $header_cart->quantity }}
                                                     </td>
                                                     <td class="text-center">
-                                                        ${{ $header_cart->price * $header_cart->quantity }}
+                                                        ฿{{ $header_cart->price * $header_cart->quantity }}
                                                     </td>
                                                 </tr>
                                                 @endif
@@ -322,23 +322,16 @@
                                             <tbody>
                                                 <tr>
                                                     <th>
-                                                        Cart Subtotal
+                                                        ยอด
                                                     </th>
                                                     <td class="total">
-                                                        ${{Cart::getTotal()}}
+                                                        ฿{{Cart::getTotal()}}
                                                     </td>
                                                 </tr>
+                                               
                                                 <tr>
                                                     <th>
-                                                        Shipping
-                                                    </th>
-                                                    <td>
-                                                        Free Shipping
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>
-                                                        <strong>Order Total</strong>
+                                                        <strong>ยอดรวมทั้งหมด</strong>
                                                     </th>
                                                     <td name="total_prict" class="total">
                                                         <input type="hidden" name="total_prict"
@@ -349,18 +342,11 @@
                                             </tbody>
                                         </table>
 
-                                        <h4 class="heading-primary">Payment</h4>
-
-                                        <div class="item">
-                                            <input type="checkbox">Pay by bank wire (order processing will be longer)
-                                        </div>
-                                        <div class="item">
-                                            <input type="checkbox">Pay by check (order processing will be longer)
-                                        </div>
+                                       
 
 
                                         <div class="pull-right">
-                                            <input type="submit" value="Place Order" class="btn btn-primary">
+                                            <input type="submit" value="ยืนยันรายการ" class="btn btn-primary">
                                         </div>
 
                                     </div>
@@ -383,8 +369,8 @@
                                         <table class="cart-summary table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th class="width-80 text-center">Image</th>
-                                                    <th>Name</th>
+                                                    <th class="width-80 text-center">รูปภาพ</th>
+                                                    <th>สินค้า</th>
                                                     
                                                     <th class="width-100 text-center">Qty (คิดเป็นต้น)</th>
                                                     
@@ -427,7 +413,7 @@
                                         </table>
 
                                         <div class="pull-right">
-                                            <input type="submit" value="Place Order" class="btn btn-primary">
+                                            <input type="submit" value="ยืนยันรายการ" class="btn btn-primary">
                                         </div>
 
                                     </div>
@@ -447,24 +433,16 @@
                         <tbody>
                             <tr class="cart-subtotal">
                                 <th>
-                                    <strong>Cart Subtotal</strong>
+                                    <strong>ยอด</strong>
                                 </th>
                                 <td>
                                     <strong><span class="amount">${{Cart::getTotal()}}</span></strong>
                                 </td>
                             </tr>
-                            <tr class="shipping">
-                                <th>
-                                    Shipping
-                                </th>
-                                <td>
-                                    Free Shipping<input type="hidden" value="free_shipping" class="shipping-method"
-                                        name="shipping_method">
-                                </td>
-                            </tr>
+                            
                             <tr class="total">
                                 <th>
-                                    <strong>Order Total</strong>
+                                    <strong>ยอดรวมทั่งหมด</strong>
                                 </th>
                                 <td>
                                     <strong><span class="amount">${{Cart::getTotal()}}</span></strong>

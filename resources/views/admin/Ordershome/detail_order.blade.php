@@ -24,7 +24,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p><strong>หมายเลขคำสั่งซื้อ:</strong> {{$getdetail->id}} </p>
+                                        <p><strong>หมายเลขคำสั่งซื้อ:</strong> {{$getdetail->home_id}} </p>
                                         <p><strong>วันที่สั่งซื้อ:</strong> {{ \Carbon\Carbon::parse($getdetail->created_at)->locale('th')->translatedFormat('d M Y H:i')}}</p>
                                         <p><strong>สถานะ:</strong> <span class="badge bg-warning">
                                                 @if($getdetail->status == 0)
@@ -68,7 +68,7 @@
                                                 <a type="button" href="{{route('order_e_create', $getdetail->id)}}"
                                                     class="btn btn-info">เพิ่มรายการรับซื้อ</a>
                                                     
-                                                <a type="button" href="{{route('showReceipt', $getdetail->id )}}"
+                                                <a type="button" href="{{route('showReceipt_buyhome', $getdetail->id )}}"
                                                     class="btn btn-primary">ออกใบเสร็จ</a>
 
                                             </div>

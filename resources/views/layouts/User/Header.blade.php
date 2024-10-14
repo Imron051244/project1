@@ -260,11 +260,11 @@
             </li>
 
             <li class="dropdown">
-                <a href="{{url('/about')}}">เกียวกับเรา</a>
+                <a href="{{route('contact')}}">เกียวกับเรา</a>
             </li>
 
             <li>
-                <a href="{{url('/contact')}}">ติดต่อเรา</a>
+                <a href="{{route('about')}}">ติดต่อเรา</a>
             </li>
 
         </ul>

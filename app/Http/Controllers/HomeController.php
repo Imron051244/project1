@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductModel;
+
 class HomeController extends Controller
 {
     public function __construct()
@@ -29,7 +30,6 @@ class HomeController extends Controller
         $data['getProducts'] = ProductModel::getRecordAtive();
         $this->middleware('user');
         return view('welcome', $data);
-        
     }
 
     public function contact()

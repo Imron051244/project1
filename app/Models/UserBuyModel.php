@@ -44,7 +44,7 @@ class UserBuyModel extends Model
             ->find($id);
     }
 
-    public function getItem()
+    public function getBuy()
     {
         return $this ->hasMany(OderBuyModel::class, 'user_buy_id');
     }

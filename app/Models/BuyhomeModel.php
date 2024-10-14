@@ -27,7 +27,7 @@ class BuyhomeModel extends Model
     static public function getdetail($id)
     {
         return self::where('buy_home.is_delete', '=', 0)
-            ->select('buy_home.*')
+            ->select('buy_home.*', 'buy_home.id as home_id')
             ->find($id);
     }
 

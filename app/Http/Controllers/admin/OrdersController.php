@@ -58,14 +58,6 @@ class OrdersController extends Controller
         return view('admin.Orders.orderDT', $data);
     }
 
-    public function order_detailbuy($id)
-    {
-        $data['getdetailbuy'] = UserBuyModel::getdetail($id);
-        $data['getSingle'] = UserBuyModel::getSingle($id);
-
-        return view('admin.Orders.orderDT', $data);
-    }
-
     public function updateStatus(Request $request, $id)
     {
         // ดึงข้อมูลคำสั่งซื้อจาก UserSellModel หรือ UserBuyModel
@@ -194,7 +186,6 @@ class OrdersController extends Controller
     {
         $data['getdetailsell'] = UserSellModel::getdetail($id);
         $data['getSingle'] = UserSellModel::getSingle($id);
-
 
         return view('admin.Orders.receipt', $data);
     }
