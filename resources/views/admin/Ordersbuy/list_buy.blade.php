@@ -11,7 +11,6 @@
 
                 <!-- การซื้อ -->
 
-
                 <!-- การขาย -->
                 <div class="card">
 
@@ -19,7 +18,6 @@
                         <h4>การรับซื้อสินค้า</h4>
 
                         <div class="card-header-action">
-
                             <form method="get">
                                 <div class="input-group">
                                     <input type="text" name="search_sell" value="" class="form-control" placeholder="ค้นหา (เบอร์โทรผู้ขาย)">
@@ -29,10 +27,7 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
-
-
 
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -50,46 +45,43 @@
                                 </thead>
 
                                 <tbody>
-
-                                    @foreach ($getbuy as $buy )
-                                    <tr>
-                                        <td>{{$buy->name}} {{$buy->last_name}}</td>
-                                        <td>{{$buy->quantity}} ลูก</td>
-                                        <td>{{ substr($buy->phone, 0, 3) }}-{{ substr($buy->phone, 3, 3) }}-{{ substr($buy->phone, 6) }}</td>
-                                        <td>{{$buy->created_at}}</td>
-
-
-                                        <td>
-                                            <div class="dropdown d-inline mr-2">
-                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <form action="" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการอนุมัติคำสั่งขายนี้?');">
-                                                        @csrf
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>{{$buy->ready_date}}</td>
-
-                                        <td>
-                                            <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                                                <a onclick="return confirm('คุณต้องการลบราคา หรือไม่ ?')"
-                                                    type="button" href=""
-                                                    class="btn btn-danger">ลบ</a>
-                                                <a type="button" href="{{route('detail_order_buy', $buy->id)}}"
-                                                    class="btn btn-warning">รายละเอียด</a>
-
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    @endforeach
+                                    @if($getbuy->isEmpty())
+                                        <tr>
+                                            <td colspan="7" class="text-center">ยังไม่มีรายการ</td>
+                                        </tr>
+                                    @else
+                                        @foreach ($getbuy as $buy)
+                                            <tr>
+                                                <td>{{ $buy->name }} {{ $buy->last_name }}</td>
+                                                <td>{{ $buy->quantity }} ลูก</td>
+                                                <td>{{ substr($buy->phone, 0, 3) }}-{{ substr($buy->phone, 3, 3) }}-{{ substr($buy->phone, 6) }}</td>
+                                                <td>{{ $buy->created_at }}</td>
+                                                <td>
+                                                    <div class="dropdown d-inline mr-2">
+                                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <!-- ปุ่มสถานะ -->
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <form action="" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการอนุมัติคำสั่งขายนี้?');">
+                                                                @csrf
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $buy->ready_date }}</td>
+                                                <td>
+                                                    <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                                        <a onclick="return confirm('คุณต้องการลบราคา หรือไม่ ?')" type="button" href="" class="btn btn-danger">ลบ</a>
+                                                        <a type="button" href="{{ route('detail_order_buy', $buy->id) }}" class="btn btn-warning">รายละเอียด</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                             <div class="card-footer text-right">
-
+                                <!-- ปุ่มหรือลิงก์อื่น ๆ ถ้ามี -->
                             </div>
                         </div>
                     </div>

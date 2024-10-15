@@ -96,6 +96,11 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/orders-buy/detail/{id}', [OrdersbuyController::class, 'detail_order_buy'])->name('detail_order_buy');
     Route::get('/orders-buy/detail/edit/{id}', [OrdersbuyController::class, 'edit_order_buy'])->name('edit_order_buy');
     Route::get('/grade', [OrdersbuyController::class, 'grade_price'])->name('grade_price');
+    Route::post('/orders-buy/detail/edit/save/{id}', [OrdersbuyController::class, 'edit_save_buy'])->name('edit_save_buy');
+    Route::get('/orders-buy/detail/detail-product/{id}', [OrdersbuyController::class, 'detail_e_buy'])->name('detail_e_buy');
+    Route::get('/orders-buy/detail/detail-product/edit/{id}', [OrdersbuyController::class, 'edit_e_buy'])->name('edit_e_buy');
+    Route::post('/orders-buy/detail/detail-product/edit/save/{id}', [OrdersbuyController::class, 'edit_e_save'])->name('edit_e_save');
+    
 
 
 

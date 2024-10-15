@@ -173,8 +173,8 @@ class PaymentController extends Controller
 
                 $oderbuy = new OderBuyModel;
                 $oderbuy->user_buy_id = $userbuy->id;
-                $oderbuy->product_id = ($header_cart->id);
-                $userbuy->quantity = $header_cart->quantity;
+                $oderbuy->product_id = $header_cart->id;
+                $oderbuy->quantity = $header_cart->quantity;
 
                 // บันทึกข้อมูลลงฐานข้อมูล
 

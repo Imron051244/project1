@@ -12,7 +12,7 @@
             <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form action="{{route('edit_save_buy', $getSingle->id)}}" method="post">
                             <!-- Flash message -->
 
                             {{ csrf_field() }}
@@ -25,6 +25,7 @@
                                     <div class="form-group">
                                         <label for="inputAddress">ชื่อสินค้า</label>
                                         <input type="text" class="form-control" value="{{$getSingle->getProduct->title}}" readonly>
+                                        <input type="hidden" name="product_id" value="{{$getSingle->getProduct->id}}">
                                     </div>
 
 

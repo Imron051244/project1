@@ -49,6 +49,11 @@ class UserBuyModel extends Model
         return $this ->hasMany(OderBuyModel::class, 'user_buy_id');
     }
 
+    public function getbuys()
+    {
+        return $this->hasMany(OderBuy_dModel::class, "buy_d_id");
+    }
+
     
 
    
