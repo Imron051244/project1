@@ -12,12 +12,9 @@
 	<!-- Breadcrumb -->
 	<div id="breadcrumb">
 		<div class="container">
-			<h2 class="title">Login</h2>
+			<h2 class="title">เข้าระบบ</h2>
 
-			<ul class="breadcrumb">
-				<li><a href="#" title="Home">Home</a></li>
-				<li><span>Login</span></li>
-			</ul>
+			
 		</div>
 	</div>
 
@@ -26,7 +23,7 @@
 		<div class="login-page">
 			<div class="login-form form">
 				<div class="block-title">
-					<h2 class="title"><span>Login</span></h2>
+					<h2 class="title"><span>เข้าสู่ระบบ</span></h2>
 				</div>
 
 				<form action="{{route('login.action')}}" method="post">
@@ -50,24 +47,24 @@
 						</div>
 					@endif
 					<div class="form-group">
-						<label>Email</label>
+						<label>อีเมล</label>
 						<input type="email" value="{{ old('email') }}" name="email">
 					</div>
 
 					<div class="form-group">
-						<label>Password</label>
+						<label>รหัสผ่าน</label>
 						<input type="password" name="password">
 					</div>
 
 					<div class="form-group text-center">
 						<div class="link">
-							<a href="#">Forgot your password?</a>
-							<a href="{{ route('register') }}" style="color:chocolate;">Register ?</a>
+							<a href="#">ลืมรหัสผ่าน ?</a>
+							<a href="{{ route('register') }}" style="color:chocolate;">สมัคสมาชิก ?</a>
 						</div>
 					</div>
 
 					<div class="form-group text-center">
-						<input type="submit" class="btn btn-primary" value="Sign In">
+						<input type="submit" class="btn btn-primary" value="เข้าสู้ระบบ">
 					</div>
 				</form>
 			</div>

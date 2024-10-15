@@ -7,7 +7,7 @@
         <div class="section-header">
             <h1>รายละเอียด</h1>
 
-           
+
         </div>
 
         <div class="row">
@@ -31,7 +31,7 @@
                                                 รอการยืนยัน
                                                 @elseif($getdetail->status == 1)
                                                 ยืนยันแล้ว
-                                                
+
                                                 @elseif($getdetail->status == 2)
                                                 สำเร็จ
                                                 @elseif($getdetail->status == 3)
@@ -64,14 +64,14 @@
                                 <h4>รายละเอียดสินค้า</h4>
 
                                 <div class="card-header-action">
-                                <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                                                <a type="button" href="{{route('order_e_create', $getdetail->id)}}"
-                                                    class="btn btn-info">เพิ่มรายการรับซื้อ</a>
-                                                    
-                                                <a type="button" href="{{route('showReceipt_buyhome', $getdetail->id )}}"
-                                                    class="btn btn-primary">ออกใบเสร็จ</a>
+                                    <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                        <a type="button" href="{{route('order_e_create', $getdetail->id)}}"
+                                            class="btn btn-info">เพิ่มรายการรับซื้อ</a>
 
-                                            </div>
+                                        <a type="button" href="{{route('showReceipt_buyhome', $getdetail->id )}}"
+                                            class="btn btn-primary">ออกใบเสร็จ</a>
+
+                                    </div>
                                 </div>
                             </div>
 

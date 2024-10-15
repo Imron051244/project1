@@ -93,7 +93,9 @@ Route::middleware(['admin'])->group(function () {
 
     // การรับซื้อสินค้า
     Route::get('/orders-buy', [OrdersbuyController::class, 'list_order_buy'])->name('list_order_buy');
-    Route::get('/orders-buy/detail', [OrdersbuyController::class, 'detail_order_buy'])->name('detail_order_buy');
+    Route::get('/orders-buy/detail/{id}', [OrdersbuyController::class, 'detail_order_buy'])->name('detail_order_buy');
+    Route::get('/orders-buy/detail/edit/{id}', [OrdersbuyController::class, 'edit_order_buy'])->name('edit_order_buy');
+    Route::get('/grade', [OrdersbuyController::class, 'grade_price'])->name('grade_price');
 
 
 
@@ -104,7 +106,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/orders/detail-buy/edit/{id}', [OrdersController::class, 'order_editbuy'])->name('order_editbuy');
     Route::get('/orders/create-buy/', [OrdersController::class, 'order_create'])->name('order_create');
     Route::get('/orders/create-buy/grade', [OrdersController::class, 'grade'])->name('grade');
-    Route::get('/orders/create-buy/price_grade', [OrdersController::class, 'price_grade'])->name('price_grade');
+    Route::get('/orders/create-buy/price-grade', [OrdersController::class, 'price_grade'])->name('price_grade');
 
     Route::get('/orders-home', [OrdershomeController::class, 'order_home'])->name('order_home');
     Route::get('/orders-home/create', [OrdershomeController::class, 'order_home_create'])->name('order_home_create');

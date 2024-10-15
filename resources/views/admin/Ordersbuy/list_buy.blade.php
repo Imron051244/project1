@@ -78,7 +78,7 @@
                                                 <a onclick="return confirm('คุณต้องการลบราคา หรือไม่ ?')"
                                                     type="button" href=""
                                                     class="btn btn-danger">ลบ</a>
-                                                <a type="button" href="{{route('detail_order_buy')}}"
+                                                <a type="button" href="{{route('detail_order_buy', $buy->id)}}"
                                                     class="btn btn-warning">รายละเอียด</a>
 
                                             </div>
