@@ -230,41 +230,20 @@
     <div id="main-menu">
         <ul class="menu">
             <li class="dropdown">
-                <a href="{{route('home')}}" title="Homepage">หน้าหลัก</a>
+                <a style="font-family: 'Noto Serif Thai', serif;" href="{{route('home')}}" title="Homepage">หน้าหลัก</a>
             </li>
 
             <li class="dropdown">
-                <a href="{{route('list')}}" title="Page">สินค้า</a>
-                <!-- <div class="dropdown-menu">
-                    <ul>
-                        <li class="dropdown-submenu">
-                            <a href="product-grid-left-sidebar.html" title="Product List">Product List</a>
-                            <div class="dropdown-menu level2">
-                                <ul>
-                                    <li><a href="product-grid-left-sidebar.html"
-                                            title="Product Grid - Left Sidebar">Product Grid - Left Sidebar</a>
-                                    </li>
-                                    <li><a href="product-grid-right-sidebar.html"
-                                            title="Product Grid - Right Sidebar">Product Grid - Right
-                                            Sidebar</a></li>
-                                    <li><a href="product-grid-full-width.html" title="Product Grid - Full Width">Product
-                                            Grid - Full Width</a></li>
-                                    <li><a href="product-list-left-sidebar.html"
-                                            title="Product List - Left Sidebar">Product List - Left Sidebar</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div> -->
+                <a style="font-family: 'Noto Serif Thai', serif; " href="{{route('list')}}" title="Page">สินค้า</a>
+            
             </li>
 
             <li class="dropdown">
-                <a href="{{route('contact')}}">เกียวกับเรา</a>
+                <a style="font-family: 'Noto Serif Thai', serif; " href="{{route('contact')}}">เกียวกับเรา</a>
             </li>
 
             <li>
-                <a href="{{route('about')}}">ติดต่อเรา</a>
+                <a style="font-family: 'Noto Serif Thai', serif; " href="{{route('about')}}">ติดต่อเรา</a>
             </li>
 
         </ul>

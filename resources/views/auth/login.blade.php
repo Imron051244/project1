@@ -12,18 +12,18 @@
 	<!-- Breadcrumb -->
 	<div id="breadcrumb">
 		<div class="container">
-			<h2 class="title">เข้าระบบ</h2>
+			<h2 style="font-family: 'Noto Serif Thai', serif; " class="title">เข้าระบบ</h2>
 
 			
 		</div>
 	</div>
 
 
-	<div class="container">
+	<div style="font-family: 'Noto Serif Thai', serif; " class="container">
 		<div class="login-page">
 			<div class="login-form form">
 				<div class="block-title">
-					<h2 class="title"><span>เข้าสู่ระบบ</span></h2>
+					<h2 style="font-family: 'Noto Serif Thai', serif; " class="title"><span>เข้าสู่ระบบ</span></h2>
 				</div>
 
 				<form action="{{route('login.action')}}" method="post">
@@ -64,7 +64,7 @@
 					</div>
 
 					<div class="form-group text-center">
-						<input type="submit" class="btn btn-primary" value="เข้าสู้ระบบ">
+						<input style="font-family: 'Noto Serif Thai', serif; " type="submit" class="btn btn-primary" value="เข้าสู้ระบบ">
 					</div>
 				</form>
 			</div>

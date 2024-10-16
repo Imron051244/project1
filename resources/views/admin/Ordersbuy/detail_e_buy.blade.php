@@ -19,8 +19,8 @@
 
                                 <div class="card-header-action">
                                     <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                                        <a type="button" href="#" class="btn btn-info">กลับหน้าหลัก</a>
-                                        <a type="button" href="#" class="btn btn-primary">กลับหน้ารายการ</a>
+                                        <a type="button" href="{{ route('list_order_buy') }}" class="btn btn-info">กลับหน้าหลัก</a>
+                                        <a type="button" href="{{route('showReceipt_buy', $getSinglebuy->id) }}" class="btn btn-primary">ออกใบเสร็จ</a>
                                     </div>
                                 </div>
 
@@ -54,12 +54,12 @@
                                         $total_QTY = 0;
                                         @endphp
 
-                                        @if($getSingle->getbuys->isEmpty())
+                                        @if($getSinglebuy->getbuys_d->isEmpty())
                                             <tr>
                                                 <td colspan="7" class="text-center">ยังไม่มีรายการ</td>
                                             </tr>
                                         @else
-                                            @foreach ($getSingle->getbuys as $product)
+                                            @foreach ($getSinglebuy->getbuys_d as $product)
                                             @php
                                             $getCartProduct = App\Models\ProductModel::getSingle($product->getProduct->id);
                                             $getProductImage = $getCartProduct->getImageSingle($getCartProduct->id);

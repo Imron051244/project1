@@ -1,7 +1,7 @@
 @extends('layouts.User.footer')
 
 @section('content')
-<div id="content" class="site-content">
+<div id="content" class="site-content" style="font-family: 'Noto Serif Thai', serif;">
     <!-- Slideshow -->
     <div class="section slideshow">
         <div class="tiva-slideshow-wrapper">

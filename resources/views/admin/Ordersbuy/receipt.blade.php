@@ -176,25 +176,22 @@
         <!-- Header Section -->
         <div class="header">
             <h1>ใบเสร็จการซื้อขายผลไม้</h1>
-            <p>หมายเลขใบสั่งซื้อ: {{$getdetailsell->users_sell_id}} </p>
+            <p>หมายเลขใบสั่งซื้อ: {{$getSinglebuy->getuser_buy->id}} </p>
         </div>
 
         <!-- Company Information -->
         <div class="company-info">
             <p>ร้านผลไม้สด "สหายผลไม้"</p>
-            <p>ที่อยู่: 45/12 ถนนสวนมะพร้าว กรุงเทพฯ 10100</p>
+            <p>ที่อยู่: </p>
             <p>โทร: 080-705-8890</p>
         </div>
 
         <!-- Order Information -->
         <div class="order-info">
-            <p><strong>ชื่อลูกค้า:</strong> {{$getdetailsell->name}} {{$getdetailsell->last_name}} </p>
-            <p><strong>วันที่สั่งซื้อ:</strong> {{ \Carbon\Carbon::parse($getdetailsell->created_at)->locale('th')->translatedFormat('d M Y H:i')}}</p>
-            <p><strong>ที่อยู่:</strong> {{$getdetailsell->address}} ตำบล {{$getdetailsell->name_th}}
-                อำเภอ {{$getdetailsell->districts}} จังหวัด {{$getdetailsell->provinces}}
-                {{$getdetailsell->zip_code}}
-            </p>
-            <p><strong>เบอร์โทรศัพท์:</strong> {{ substr($getdetailsell->phone, 0, 3) }}-{{ substr($getdetailsell->phone, 3, 3) }}-{{ substr($getdetailsell->phone, 6) }}</p>
+            <p><strong>ชื่อลูกค้า:</strong> {{$getSinglebuy->getuser_buy->name}} {{$getSinglebuy->getuser_buy->last_name}} </p>
+            <p><strong>วันที่สั่งซื้อ:</strong> {{ \Carbon\Carbon::parse($getSinglebuy->getuser_buy->created_at)->locale('th')->translatedFormat('d M Y H:i')}}</p>
+           
+            <p><strong>เบอร์โทรศัพท์:</strong> {{ substr($getSinglebuy->getuser_buy->phone, 0, 3) }}-{{ substr($getSinglebuy->getuser_buy->phone, 3, 3) }}-{{ substr($getSinglebuy->getuser_buy->phone, 6) }}</p>
         </div>
 
         <!-- Product Information -->
@@ -213,18 +210,18 @@
                     $totalAmount = 0; // ตัวแปรสำหรับเก็บยอดรวมทั้งหมด
                     $total_QTY = 0;
                     @endphp
-                    @foreach ($getSingle->getItem as $detailSell)
+                    @foreach ($getSinglebuy->getbuys_d as $getdetail)
                     <tr>
-                        <td>{{$detailSell->getProduct->title}} x {{$detailSell->grade}}</td>
-                        <td>{{$detailSell->quantity}}</td>
-                        <td>฿ {{ number_format($detailSell->price, 2) }} </td>
-                        <td>฿ {{ number_format($detailSell->total_price, 2) }}</td>
+                        <td>{{$getdetail->getProduct->title}} - {{$getdetail->grade}} </td>
+                        <td>{{$getdetail->qty_buy}}</td>
+                        <td>฿ {{ number_format($getdetail->price, 2) }} </td>
+                        <td>฿ {{ number_format($getdetail->price_total, 2) }}</td>
                     </tr>
-
+ 
                     @php
                     // เพิ่มราคาของแต่ละรายการในยอดรวมทั้งหมด
-                    $totalAmount += $detailSell->total_price;
-                    $total_QTY += $detailSell->quantity
+                    $totalAmount += $getdetail->price_total;
+                    $total_QTY += $getdetail->qty_buy
                     @endphp
                     @endforeach
 
@@ -246,7 +243,7 @@
         <!-- Print Button -->
         <button class="print-button" onclick="printReceipt()">พิมพ์ใบเสร็จ</button>
     </div>
-   
+    
     <script>
         function printReceipt() {
             window.print();

@@ -28,14 +28,13 @@ class OderBuyModel extends Model
         return $this->belongsTo(PriceModel::class, "product_id");
     }
 
-    public function getbuys()
+    public function getbuys_d()
     {
         return $this->hasMany(OderBuy_dModel::class, "buy_d_id");
     }
 
-
-    
-
-
-
+    public function getuser_buy()
+    {
+        return $this->belongsTo(UserBuyModel::class, 'user_buy_id');
+    }
 }

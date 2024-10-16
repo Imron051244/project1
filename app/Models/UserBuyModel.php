@@ -20,7 +20,7 @@ class UserBuyModel extends Model
 
     static public function getRecord()
     {
-        return self::where('user_buy.is_delete', '=', 0)  
+        return self::where('user_buy.is_delete', '=', 0)
             ->select('user_buy.*')
             ->orderBy('id', 'desc')
             ->paginate(10);
@@ -46,15 +46,11 @@ class UserBuyModel extends Model
 
     public function getBuy()
     {
-        return $this ->hasMany(OderBuyModel::class, 'user_buy_id');
+        return $this->hasMany(OderBuyModel::class, 'user_buy_id');
     }
 
     public function getbuys()
     {
         return $this->hasMany(OderBuy_dModel::class, "buy_d_id");
     }
-
-    
-
-   
 }

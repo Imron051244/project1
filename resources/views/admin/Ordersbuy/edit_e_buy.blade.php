@@ -20,6 +20,13 @@
                                 <div class="card-header">
                                     <h4>แก้ไข้สินค้า</h4>
 
+                                    <div class="card-header-action">
+                                    <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                        <a type="button" href="#" class="btn btn-info">กลับหน้าหลัก</a>
+                                        <a type="button" href="#" class="btn btn-primary">กลับหน้ารายการ</a>
+                                    </div>
+                                </div>
+
 
                                 </div>
                                 @if(session('successa'))

@@ -11,7 +11,7 @@
 	<meta name="description" content="FreshMart - Organic, Fresh Food, Farm Store HTML Template">
 	<meta name="author" content="tivatheme">
 	@yield('boostrablogin')
-	
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="{{asset('img/favicon.png')}}" type="image/png">
@@ -36,10 +36,20 @@
 	<!-- Template CSS -->
 	<link rel="stylesheet" href="{{asset('css/style.css')}}">
 	<link rel="stylesheet" href="{{asset('css/reponsive.css')}}">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@100..900&display=swap');
+
+		body {
+			font-family: 'Noto Serif Thai', serif;
+		}
+
+		
+	</style>
 </head>
 
 <body class="home home-1">
 	<div id="all">
+	
 		<!-- Header -->
 		@yield('Header')
 

@@ -80,7 +80,6 @@
                                                     สำเร็จ
                                                     @elseif($list->status == 3)
                                                     ยกเลิก
-
                                                     @endif
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

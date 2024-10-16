@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <form action="{{route('edit_save_buy', $getSingle->id)}}" method="post">
                             <!-- Flash message -->
-
+ 
                             {{ csrf_field() }}
                             <div class="card">
                                 <div class="card-header">

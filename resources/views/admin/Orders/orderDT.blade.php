@@ -18,7 +18,7 @@
                             <div class="card-header">
                                 <h4>ข้อมูลคำสั่งซื้อ</h4>
                             </div>
-                            @if (!empty($getdetailsell))
+                            
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -57,48 +57,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            @elseif (!empty($getdetailbuy))
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><strong>หมายเลขคำสั่งซื้อ:</strong> {{$getdetailbuy->users_buy_id}}</p>
-                                        <p><strong>วันที่สั่งซื้อ:</strong> {{ \Carbon\Carbon::parse($getdetailbuy->created_at)->locale('th')->translatedFormat('d M Y H:i')}}</p>
-                                        <p><strong>สถานะ:</strong> <span class="badge bg-warning">
-                                                @if($getdetailbuy->status == 0)
-                                                รอการยืนยัน
-                                                @elseif($getdetailbuy->status == 1)
-                                                ยืนยันแล้ว
-                                                @elseif($getdetailbuy->status == 2)
-                                                รอการชำระเงิน
-                                                @elseif($getdetailbuy->status == 3)
-                                                ชำระเงินแล้ว
-                                                @elseif($getdetailbuy->status == 4)
-                                                กำลังจัดเตรียมสินค้า
-                                                @elseif($getdetailbuy->status == 5)
-                                                จัดเตรียมสำเร็จ
-                                                @elseif($getdetailbuy->status == 6)
-                                                สำเร็จ
-                                                @elseif($getdetailbuy->status == 7)
-                                                ยกเลิก
-                                                @endif
-                                            </span></p>
-                                        <p><strong>วิธีการชำระเงิน:</strong> โอนผ่านธนาคาร</p>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <h4>ข้อมูลผู้รับ</h4>
-                                        <p><strong>ชื่อผู้รับ:</strong> {{$getdetailbuy->name}} {{$getdetailbuy->last_name}}</p>
-                                        <p><strong>เบอร์โทรศัพท์:</strong> {{ substr($getdetailbuy->phone, 0, 3) }}-{{ substr($getdetailbuy->phone, 3, 3) }}-{{ substr($getdetailbuy->phone, 6) }}</p>
-                                        <p><strong>ที่อยู่:</strong> {{$getdetailbuy->address}} ตำบล {{$getdetailbuy->name_th}}
-                                            อำเภอ {{$getdetailbuy->districts}} จังหวัด {{$getdetailbuy->provinces}}
-                                            {{$getdetailbuy->zip_code}}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            @endif
+                          
                         </div>
                     </div>
                 </div>
@@ -109,7 +68,7 @@
                             <div class="card-header">
                                 <h4>รายละเอียดสินค้า</h4>
 
-                                @if (!empty($getdetailsell))
+                               
                                 <div class="card-header-action">
                                     <div class="input-group">
                                         <div class="input-group-btn">
@@ -117,20 +76,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endif
-
-
-
-                                @if (!empty($getdetailbuy))
-                                <div class="card-header-action">
-                                    <div class="input-group">
-                                        <div class="input-group-btn">
-                                            <a class="btn btn-success" href="">ออกใบเสร็จ</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-
                             </div>
 
 
@@ -147,19 +92,7 @@
                                 <table class="table">
 
                                     <thead>
-                                        @if (!empty($getdetailbuy))
-                                        <tr>
-                                            <th>ชื่อสินค้า</th>
-                                            <th>รูปสินค้า</th>
-                                            <th>ประมานกีลูก</th>
-                                            <th>เกรดสินค้า</th>
-                                            <th>จำนวน</th>
-                                            <th>ราคาต่อหน่วย</th>
-                                            <th>ราคารวม</th>
-                                            <th>เพิ่มเติม</th>
-                                        </tr>
-
-                                        @elseif(!empty($getdetailsell))
+                                
 
                                         <tr>
                                             <th>ชื่อสินค้า</th>
@@ -170,11 +103,10 @@
                                             <th>ราคารวม</th>
                                             <th>เพิ่มเติม</th>
                                         </tr>
-                                        @endif
+                                      
                                     </thead>
                                     <tbody>
-                                        @if (!empty($getdetailsell))
-                                        <!-- การซื้อ -->
+                                    
                                         @php
                                         $totalAmount = 0; // ตัวแปรสำหรับเก็บยอดรวมทั้งหมด
                                         $total_QTY = 0;
@@ -226,50 +158,6 @@
                                         @endphp
                                         @endforeach
 
-                                        @elseif (!empty($getdetailbuy))
-                                        <!-- การขาย -->
-                                        @foreach ($getSingle->getItem as $detailbuy)
-                                        @php
-                                        $getCartProduct = App\Models\ProductModel::getSingle($detailbuy->getProduct->id);
-                                        $getProductImage = $getCartProduct->getImageSingle($getCartProduct->id);
-                                        @endphp
-                                        <tr>
-                                            <td>{{$detailbuy->getProduct->title}}</td>
-
-                                            <td class="product-image">
-                                                <a>
-                                                    <img width="80" style="height: 63.11px; width:63.11px;" alt="Product Image"
-                                                        class="img-responsive"
-                                                        src="{{ asset('upload/product/' . $getProductImage->image_name) }}">
-                                                </a>
-                                            </td>
-
-                                            <td>{{$getdetailbuy->quantity}}</td>
-
-                                            <td>{{$detailbuy->grade}}</td>
-
-                                            <td>{{$detailbuy->price}}</td>
-
-                                            <td>{{$detailbuy->quantity}}</td>
-
-                                            <td>{{$detailbuy->total_price}}</td>
-
-                                            <td>
-                                                <div class="card-header-action">
-                                                    <div class="input-group">
-                                                        <div class="input-group-btn">
-                                                            <a class="btn btn-success" href="#">แก้ไข้</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </td>
-
-                                        </tr>
-                                        @endforeach
-                                        @endif
-
-
                                     </tbody>
                                 </table>
                             </div>
@@ -285,7 +173,6 @@
                             <div class="card-header">
                                 <h4>สรุปรายการสินค้า</h4>
                             </div>
-                            @if (!empty($getdetailsell))
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -302,24 +189,7 @@
                                 </div>
                             </div>
 
-                            @elseif (!empty($getdetailbuy))
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><strong>ยอดรวมผมไม้:</strong> ฿ </p>
-                                        <p><strong>ยอดรวมทั้งหมด:</strong> ฿ </p>
-
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <h4>ยอดรวม</h4>
-                                        <p><strong>ยอดรวมที่ต้องจ่าย:</strong> ฿ </p>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            @endif
+                           
 
 
                         </div>

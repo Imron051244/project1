@@ -8,16 +8,16 @@
 	<div id="breadcrumb">
 		<div class="container">
 			@if (isset($getCategoryName))
-			<h2 class="title">{{ $getCategoryName->title }}</h2>
+			<h2 style="font-family: 'Noto Serif Thai', serif; " class="title">{{ $getCategoryName->title }}</h2>
 			@else
-			<h2 class="title">สินค้า</h2>
+			<h2 style="font-family: 'Noto Serif Thai', serif; " class="title">สินค้า</h2>
 			@endif
 
 		</div>
 	</div>
 
 
-	<div class="container">
+	<div class="container" style="font-family: 'Noto Serif Thai', serif; ">
 
 		<div class="row">
 			<!-- Sidebar -->
@@ -32,7 +32,7 @@
 					@foreach ($getCategory as $CategoryName)
 					<div class="block-content">
 						<div class="item">
-							<a class="category-title" href="{{route('categoryName', $CategoryName->title)}}">
+							<a style="font-family: 'Noto Serif Thai', serif; " class="category-title" href="{{route('categoryName', $CategoryName->title)}}">
 								{{ $CategoryName->title }}
 							</a>
 						</div>
@@ -81,7 +81,7 @@
 											</div>
 
 											<div class="product-title">
-												<a href="{{ route('detail', ['id' => $Product->id]) }}">
+												<a style="font-family: 'Noto Serif Thai', serif; " href="{{ route('detail', ['id' => $Product->id]) }}">
 													{{$Product->title}}
 												</a>
 											</div>
@@ -89,7 +89,7 @@
 
 
 											<div class="product-price">
-												<span class="sale-price">฿</span>
+												<span style="font-family: 'Noto Serif Thai', serif; " class="sale-price">฿</span>
 											</div>
 
 											<div class="product-buttons">

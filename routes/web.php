@@ -93,6 +93,10 @@ Route::middleware(['admin'])->group(function () {
 
     // การรับซื้อสินค้า
     Route::get('/orders-buy', [OrdersbuyController::class, 'list_order_buy'])->name('list_order_buy');
+    Route::post('/orders-buy/status/{id}', [OrdersbuyController::class, 'update_status_buy'])->name('update_status_buy');
+    Route::post('/orders-buy/detail/status/{id}', [OrdersbuyController::class, 'status_e_buy'])->name('status_e_buy');
+    Route::get('/orders-buy/create/{id}', [OrdersbuyController::class, 'create_order_buy'])->name('create_order_buy');
+    Route::post('/orders-buy/create/save/{id}', [OrdersbuyController::class, 'create_order_save'])->name('create_order_save');
     Route::get('/orders-buy/detail/{id}', [OrdersbuyController::class, 'detail_order_buy'])->name('detail_order_buy');
     Route::get('/orders-buy/detail/edit/{id}', [OrdersbuyController::class, 'edit_order_buy'])->name('edit_order_buy');
     Route::get('/grade', [OrdersbuyController::class, 'grade_price'])->name('grade_price');
@@ -100,6 +104,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/orders-buy/detail/detail-product/{id}', [OrdersbuyController::class, 'detail_e_buy'])->name('detail_e_buy');
     Route::get('/orders-buy/detail/detail-product/edit/{id}', [OrdersbuyController::class, 'edit_e_buy'])->name('edit_e_buy');
     Route::post('/orders-buy/detail/detail-product/edit/save/{id}', [OrdersbuyController::class, 'edit_e_save'])->name('edit_e_save');
+    Route::get('/orders-buy/showReceipt/{id}', [OrdersbuyController::class, 'showReceipt_buy'])->name('showReceipt_buy');
     
 
 

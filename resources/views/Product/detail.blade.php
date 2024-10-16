@@ -5,18 +5,18 @@
     <!-- Breadcrumb -->
     <div id="breadcrumb">
         <div class="container">
-            <h2 class="title">{{$getProductDetail->title}}</h2>
+            <h2 style="font-family: 'Noto Serif Thai', serif; " class="title">{{$getProductDetail->title}}</h2>
         </div>
     </div>
 
 
-    <div class="container">
+    <div style="font-family: 'Noto Serif Thai', serif; " class="container" >
         <div class="row">
             <!-- Sidebar -->
             <div id="left-column" class="sidebar col-lg-3 col-md-3 col-sm-3 col-xs-12">
                 <!-- Block - Product Categories -->
                 <div class="block product-categories">
-                    <h3 class="block-title">ประเภทสินค้า</h3>
+                    <h3 style="font-family: 'Noto Serif Thai', serif; " class="block-title">ประเภทสินค้า</h3>
                     @php
                     $getCategory = App\Models\CategoryModel::getRecordMenu();
                     @endphp
@@ -24,7 +24,7 @@
                     @foreach ($getCategory as $CategoryName)
                     <div class="block-content">
                         <div class="item">
-                            <a class="category-title" href="{{route('categoryName', $CategoryName->title)}}">
+                            <a style="font-family: 'Noto Serif Thai', serif; " class="category-title" href="{{route('categoryName', $CategoryName->title)}}">
                                 {{ $CategoryName->title }}
                             </a>
                         </div>
@@ -40,7 +40,7 @@
                 <div class="product-detail">
                     <div class="products-block layout-5">
                         <div class="product-item">
-                            <div class="product-title">
+                            <div style="font-size: 28px; font-family: 'Noto Serif Thai', serif;" class="product-title">
                                 {{$getProductDetail->title}}
                             </div>
 
@@ -93,27 +93,27 @@
                                             @if (auth()->check() && auth()->user()->type === 'ผู้ซื้อ')
                                             <!-- แสดงเฉพาะราคาขายสำหรับผู้ซื้อ -->
                                             <div class="product-price">
-                                                <span id="productSellPrice" class="sale-price">
+                                                <span style="font-family: 'Noto Serif Thai', serif; " id="productSellPrice" class="sale-price">
                                                     ราคา ฿{{$getProductDetail->price_buy }}
                                                 </span>
                                             </div>
                                             @elseif (auth()->check() && auth()->user()->type === 'ผู้ขาย')
                                             <!-- แสดงเฉพาะราคาขายสำหรับผู้ขาย -->
                                             <div class="product-price">
-                                                <span id="productPrice" class="sale-price">
+                                                <span style="font-family: 'Noto Serif Thai', serif; " id="productPrice" class="sale-price">
                                                     ราคา ฿{{$getProductDetail->price_sell}}
                                                 </span>
                                             </div>
                                             @else
                                             <!-- แสดงทั้งราคาซื้อและราคาขายสำหรับผู้ใช้ที่ไม่ได้เข้าสู่ระบบหรือไม่ใช่ผู้ซื้อ -->
                                             <div class="product-price">
-                                                <span id="productPrice" class="sale-price">
+                                                <span style="font-family: 'Noto Serif Thai', serif; " id="productPrice" class="sale-price">
                                                     ราคารับซื้อ ฿{{$getProductDetail->price_sell }}
                                                 </span>
                                             </div>
                                             <p></p>
                                             <div class="product-price">
-                                                <span id="productSellPrice" class="sale-price">
+                                                <span style="font-family: 'Noto Serif Thai', serif; " id="productSellPrice" class="sale-price">
                                                     ราคาขาย ฿{{$getProductDetail->price_buy}}
                                                 </span>
                                             </div>

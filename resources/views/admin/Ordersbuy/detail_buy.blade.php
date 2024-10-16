@@ -23,7 +23,19 @@
                                     <div class="col-md-6">
                                         <p><strong>หมายเลขคำสั่งซื้อ:</strong> {{$getdetailbuy->users_buy_id}}</p>
                                         <p><strong>วันที่สั่งซื้อ:</strong> {{$getdetailbuy->created_at}}</p>
-                                        <p><strong>สถานะ:</strong> {{$getdetailbuy->status}} <span class="badge bg-warning"></span></p>
+                                        <p><strong>สถานะ:</strong> <span class="badge bg-warning">
+                                                @if($getdetailbuy->status == 0)
+                                                รอการยืนยัน
+                                                @elseif($getdetailbuy->status == 1)
+                                                ยืนยันแล้ว
+                                                @elseif($getdetailbuy->status == 2)
+                                                รอวันเก็บเกียว
+                                                @elseif($getdetailbuy->status == 3)
+                                                สำเร็จ
+                                                @elseif($getdetailbuy->status == 4)
+                                                ยกเลิก
+                                                @endif
+                                            </span></p>
                                         <p><strong>วันที่เก็บสินค้าได้:</strong> {{$getdetailbuy->ready_date}}</p>
                                     </div>
 
@@ -47,8 +59,9 @@
 
                                 <div class="card-header-action">
                                     <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                                        <a type="button" href="#" class="btn btn-info">เพิ่มรายการรับซื้อ</a>
-                                        <a type="button" href="#" class="btn btn-primary">ออกใบเสร็จ</a>
+                                    <a type="button" href="{{ route('list_order_buy') }}" class="btn btn-info">กลับหน้าหลัก</a>
+                                        <a type="button" href="{{route('create_order_buy', $getSingle->id)}}" class="btn btn-primary">เพิ่มรายการรับซื้อ</a>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -69,6 +82,7 @@
                                             <th>ชื่อสินค้า</th>
                                             <th>ประมารสินค้า (คิดเป็นลูก)</th>
                                             <th>วันที่เก็บเกียวได้</th>
+                                            <th>สถานะ</th>
                                             <th>เพิ่มเติม</th>
                                         </tr>
                                     </thead>
@@ -79,38 +93,64 @@
                                         @endphp
 
                                         @if($getSingle->getBuy->isEmpty())
-                                            <tr>
-                                                <td colspan="5" class="text-center">ยังไม่มีรายการ</td>
-                                            </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-center">ยังไม่มีรายการ</td>
+                                        </tr>
                                         @else
-                                            @foreach ($getSingle->getBuy as $getbuy)
-                                            @php
-                                                $getCartProduct = App\Models\ProductModel::getSingle($getbuy->getProduct->id);
-                                                $getProductImage = $getCartProduct->getImageSingle($getCartProduct->id);
-                                            @endphp
-                                            <tr>
-                                                <td class="product-image">
-                                                    <a>
-                                                        <img width="80" style="height: 63.11px; width:63.11px;" alt="Product Image"
-                                                            class="img-responsive"
-                                                            src="{{ asset('upload/product/' . $getProductImage->image_name) }}">
-                                                    </a>
-                                                </td>
-                                                <td>{{ $getbuy->getProduct->title }}</td>
-                                                <td>{{ $getbuy->quantity }} ลูก</td>
-                                                <td>วันที่</td>
-                                                <td>
-                                                    <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                                                        <a onclick="return confirm('คุณต้องการลบราคา หรือไม่ ?')"
-                                                            type="button" href=""
-                                                            class="btn btn-danger">ลบ</a>
-                                                        <a class="btn btn-success" href="{{ route('edit_order_buy', $getbuy->id) }}">แก้ไข้</a>
-                                                        <a type="button" href="{{ route('detail_e_buy', $getbuy->id) }}"
-                                                            class="btn btn-warning">รายละเอียด</a>
+                                        @foreach ($getSingle->getBuy as $getbuy)
+                                        @php
+                                        $getCartProduct = App\Models\ProductModel::getSingle($getbuy->getProduct->id);
+                                        $getProductImage = $getCartProduct->getImageSingle($getCartProduct->id);
+                                        @endphp
+                                        <tr>
+                                            <td class="product-image">
+                                                <a>
+                                                    <img width="80" style="height: 63.11px; width:63.11px;" alt="Product Image"
+                                                        class="img-responsive"
+                                                        src="{{ asset('upload/product/' . $getProductImage->image_name) }}">
+                                                </a>
+                                            </td>
+                                            <td>{{ $getbuy->getProduct->title }}</td>
+                                            <td>{{ $getbuy->quantity }} ลูก</td>
+                                            <td>วันที่</td>
+                                            <td>
+                                                <div class="dropdown d-inline mr-2">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        @if($getbuy->status == 0)
+                                                        รอการยืนยัน
+                                                        @elseif($getbuy->status == 1)
+                                                        รอการตรวจสอบ
+                                                        @elseif($getbuy->status == 2)
+                                                        ผ่านการตรวจสอบ
+                                                        @elseif($getbuy->status == 3)
+                                                        สำเร็จ
+                                                        @elseif($getbuy->status == 4)
+                                                        ยกเลิก
+                                                        @endif
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <form action="{{route('status_e_buy', $getbuy->id)}}" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการอนุมัติคำสั่งขายนี้?');">
+                                                            @csrf
+                                                            <button class="dropdown-item" type="submit" name="status" value="1">รอการตรวจสอบ</button>
+                                                            <button class="dropdown-item" type="submit" name="status" value="2">ผ่านการตรวจสอบ</button>
+                                                            <button class="dropdown-item" type="submit" name="status" value="3">สำเร็จ</button>
+                                                            <button class="dropdown-item" type="submit" name="status" value="4">ยกเลิก</button>
+                                                        </form>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                            @endforeach
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                                    <a onclick="return confirm('คุณต้องการลบราคา หรือไม่ ?')"
+                                                        type="button" href=""
+                                                        class="btn btn-danger">ลบ</a>
+                                                    <a class="btn btn-success" href="{{ route('edit_order_buy', $getbuy->id) }}">เพิ่มรับซื้อ</a>
+                                                    <a type="button" href="{{ route('detail_e_buy', $getbuy->id) }}"
+                                                        class="btn btn-warning">รายละเอียด</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
                                         @endif
 
                                     </tbody>
