@@ -6,7 +6,7 @@
     <!-- Breadcrumb -->
     <div id="breadcrumb">
         <div class="container">
-            <h2 class="title">การซื้อขายสินค้า</h2>
+            <h2 style="font-family: 'Noto Serif Thai', serif;" class="title">การซื้อขายสินค้า</h2>
 
 
         </div>
@@ -187,7 +187,6 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-12">
@@ -317,36 +316,8 @@
                                             </tbody>
                                         </table>
 
-                                        <h4 class="heading-primary">ยอดรายการสินค้า</h4>
-                                        <table class="table cart-total">
-                                            <tbody>
-                                                <tr>
-                                                    <th>
-                                                        ยอด
-                                                    </th>
-                                                    <td class="total">
-                                                        ฿{{Cart::getTotal()}}
-                                                    </td>
-                                                </tr>
-                                               
-                                                <tr>
-                                                    <th>
-                                                        <strong>ยอดรวมทั้งหมด</strong>
-                                                    </th>
-                                                    <td name="total_prict" class="total">
-                                                        <input type="hidden" name="total_prict"
-                                                            value="{{Cart::getTotal()}}">
-                                                        ${{Cart::getTotal()}}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                       
-
-
                                         <div class="pull-right">
-                                            <input type="submit" value="ยืนยันรายการ" class="btn btn-primary">
+                                            <input style="font-family: 'Noto Serif Thai', serif;" type="submit" value="ยืนยันรายการ" class="btn btn-primary">
                                         </div>
 
                                     </div>
@@ -371,9 +342,9 @@
                                                 <tr>
                                                     <th class="width-80 text-center">รูปภาพ</th>
                                                     <th>สินค้า</th>
-                                                    
+
                                                     <th class="width-100 text-center">Qty (คิดเป็นต้น)</th>
-                                                    
+
                                                 </tr>
                                             </thead>
 
@@ -399,21 +370,38 @@
                                                             <span style="font-weight: bold;">
                                                                 {{ $header_cart->name }}
                                                             </span>
-                                                            </a>
+                                                        </a>
                                                     </td>
-                                                   
+
                                                     <td class="text-center">
                                                         {{ $header_cart->quantity }}
                                                     </td>
-                                                    
+
                                                 </tr>
                                                 @endif
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        <div style="margin-top: -14px;">
+                                            <label>กรอกวันที่เก็บผลได้</label>
+                                            <input type="date" id="datepicker" name="date" class="form-control" placeholder="วัน/เดือน/ปี"> <!-- ใช้ placeholder แทน -->
+                                            @error('date')
+                                            <span class="text-danger">{{ $message }}</span> <!-- แสดงข้อความผิดพลาดถ้ามี -->
+                                            @enderror
 
-                                        <div class="pull-right">
-                                            <input type="submit" value="ยืนยันรายการ" class="btn btn-primary">
+                                            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> <!-- โหลด Flatpickr -->
+                                            <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/th.js"></script> <!-- เพิ่มภาษาไทย -->
+                                            <script>
+                                                flatpickr("#datepicker", {
+                                                    dateFormat: "d/m/Y", // ตั้งรูปแบบวันที่เป็น วัน/เดือน/ปี
+                                                    locale: "th" // ตั้งค่าภาษาไทย
+                                                });
+                                            </script>
+                                        </div>
+
+
+                                        <div style="margin-top: 20px;" class="pull-right">
+                                            <input style="font-family: 'Noto Serif Thai', serif;" type="submit" value="ยืนยันรายการ" class="btn btn-primary">
                                         </div>
 
                                     </div>
@@ -422,9 +410,6 @@
                             @endif
                         </form>
                     </div>
-
-
-
                 </div>
 
                 <div class="checkout-right col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -439,7 +424,7 @@
                                     <strong><span class="amount">${{Cart::getTotal()}}</span></strong>
                                 </td>
                             </tr>
-                            
+
                             <tr class="total">
                                 <th>
                                     <strong>ยอดรวมทั่งหมด</strong>

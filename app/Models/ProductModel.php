@@ -16,6 +16,14 @@ class ProductModel extends Model
         return self::find($id);
     }
 
+    public static function getSingle_Product($id)
+    {
+        return self::where('title', '=', $id)
+                    ->where('product.is_delete', '=', 0)  // เพิ่มเงื่อนไขก่อนการดึงข้อมูล
+                    ->where('product.status', '=', 0)
+                    ->first(); 
+    }
+
     static public function getProduct($category_id = null)
     {
         $query = self::select('product.*', 'category.title as category_name')
@@ -29,8 +37,6 @@ class ProductModel extends Model
 
         return $query->orderBy('product.id', 'desc')->paginate(12);
     }
-
-
 
 
     //ดึงชื่อสินค้าไปที่หน้า User
@@ -82,6 +88,11 @@ class ProductModel extends Model
     public static function getPrices($product_id)
     {
         return PriceModel::where('product_id', $product_id)->get();
+    }
+
+    public static function getPricesbuy($product_id)
+    {
+        return PriceModel::where('product_id', $product_id)->first();
     }
 
 }

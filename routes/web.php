@@ -109,15 +109,6 @@ Route::middleware(['admin'])->group(function () {
 
 
 
-
-    Route::post('/orders/{id}/status-buy', [OrdersController::class, 'updateStatusbuy'])->name('order.updateStatusbuy');
-    Route::get('/orders/delete-buy/{id}', [OrdersController::class, 'order_deletebuy'])->name('delete_buy');
-    Route::get('/orders/detail-buy/{id}', [OrdersController::class, 'order_detailbuy'])->name('order_detailbuy');
-    Route::get('/orders/detail-buy/edit/{id}', [OrdersController::class, 'order_editbuy'])->name('order_editbuy');
-    Route::get('/orders/create-buy/', [OrdersController::class, 'order_create'])->name('order_create');
-    Route::get('/orders/create-buy/grade', [OrdersController::class, 'grade'])->name('grade');
-    Route::get('/orders/create-buy/price-grade', [OrdersController::class, 'price_grade'])->name('price_grade');
-
     Route::get('/orders-home', [OrdershomeController::class, 'order_home'])->name('order_home');
     Route::get('/orders-home/create', [OrdershomeController::class, 'order_home_create'])->name('order_home_create');
     Route::post('/orders/create-buy/save', [OrdershomeController::class, 'order_create_save'])->name('order_create_save');
@@ -147,9 +138,11 @@ Route::get('/', function () {
 
 Route::get('/', [ProductsController::class, 'home'])->name('home');
 Route::get('/list', [ProductsController::class, 'list'])->name('list');
-Route::get('/product/{title?}', [ProductsController::class, 'getCategoryName'])->name('categoryName');
-Route::get('/products/{id?}', [ProductsController::class, 'getCategoryName'])->name('detail');
-Route::get('/produstb', [ProductsController::class, 'getProductPriceByGrade']);
+Route::get('list/category/{categoryId}', [ProductsController::class, 'getProductByCategory'])->name('categoryName');
+Route::get('/list/product/{productId}', [ProductsController::class, 'getProductDetail'])->name('detail');
+Route::get('/produstb', [ProductsController::class, 'getProductPriceByGrade'])->name('grade_product');
+
+
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 

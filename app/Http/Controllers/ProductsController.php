@@ -21,46 +21,49 @@ class ProductsController extends Controller
     return view('Product.list', $data);
   }
 
-  public function getCategoryName($id, $title = null)
+  public function getProductByCategory($categoryId)
   {
     // ดึงข้อมูลประเภทหมวดหมู่ของสินค้า
-    $getCategoryName = CategoryModel::getSingleCategory($id);
+    $category = CategoryModel::getSingleCategory($categoryId);
+
+    if (!$category) {
+      abort(404); // หากไม่พบหมวดหมู่ ส่งไปที่หน้าข้อผิดพลาด 404
+    }
 
     // ดึงรายการสินค้าจากหมวดหมู่
-    $getProduct = ProductModel::getProduct($getCategoryName->id ?? '');
+    $products = ProductModel::getProduct($category->id);
 
+    // ส่งข้อมูลไปยัง View สำหรับแสดงรายการสินค้าในหมวดหมู่
+    return view('Product.list', ['category' => $category, 'getProduct' => $products]);
+  }
+
+  public function getProductDetail($productId)
+  {
     // ดึงรายละเอียดสินค้าตาม ID
-    $getProductDetail = ProductModel::getSingle($id);
+    $product = ProductModel::getSingle_Product($productId);
 
-    // ดึงข้อมูลราคา
-    $getProductPrices = ProductModel::getPricePDT($id);
-  
-    if (!empty($getProductDetail)) {
-      // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่ และเป็น "ผู้ซื้อ" หรือไม่
-      
-      // ส่งข้อมูลไปยัง View
-      $data['getProductDetail'] = $getProductDetail;
-      $data['getProduct'] = $getProduct;
-      $data['getProductPrices'] = $getProductPrices;
-
-      return view('Product.detail', $data);
-    } elseif (!empty($getCategoryName)) {
-      // ส่งข้อมูลไปยัง View ของหมวดหมู่
-      $data['getCategoryName'] = $getCategoryName;
-      $data['getProduct'] = $getProduct;
-
-      return view('Product.list', $data);
-    } else {
-      abort(404); // ส่งไปยังหน้าข้อผิดพลาด 404 ถ้าไม่พบข้อมูล
+    if (!$product) {
+      abort(404); // หากไม่พบสินค้า ส่งไปที่หน้าข้อผิดพลาด 404
     }
+
+    // ดึงข้อมูลราคาสินค้า
+    $prices = ProductModel::getPricePDT($product->id);
+
+    // ส่งข้อมูลไปยัง View สำหรับแสดงรายละเอียดสินค้า
+    return view('Product.detail', 
+    ['getProductDetail' => $product, 
+           'getProductPrices' => $prices]);
   }
 
   public function getProductPriceByGrade(Request $request)
   {
     $priceId = $request->price;
+    $productId = $request->product_id;
+
     $price = PriceModel::select('price_buy', 'price_sell')
-                        ->where('grade', $priceId)
-                        ->first();
+      ->where('grade', $priceId)
+      ->where('product_id', $productId)
+      ->first();
 
     // ตรวจสอบว่า $price ไม่เป็น null ก่อนเข้าถึง price_buy
     if ($price) {
@@ -69,7 +72,10 @@ class ProductsController extends Controller
         'price_sell' => $price->price_sell
       ]);
     } else {
-      return view('welcome');
+      // ส่งกลับ JSON ถ้าไม่พบราคาที่ต้องการ
+      return response()->json([
+        'error' => 'ไม่พบราคาสำหรับเกรดที่เลือก'
+      ], 404); // ส่งกลับสถานะ 404 ถ้าไม่พบข้อมูล
     }
   }
 }

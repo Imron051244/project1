@@ -32,9 +32,13 @@ class OrdersbuyController extends Controller
     public function grade_price(Request $request)
     {
         $grade = $request->input('grade');
+        $productId = $request->product_id;
 
         // ดึงข้อมูลราคาตาม product_id และ grade
-        $price = PriceModel::where('grade', $grade)->first();
+        $price = PriceModel::where('grade', $grade)
+            ->where('product_id', $productId)
+            ->first();
+ 
         return response()->json($price->price_buy);
     }
 
@@ -69,8 +73,9 @@ class OrdersbuyController extends Controller
 
     public function edit_order_buy($id)
     {
-        $data['getProductPrices'] = ProductModel::getPrices($id);
         $data['getSingle'] = OderBuyModel::getSingle_edit($id);
+
+        $data['getProductPrices'] = ProductModel::getPricePDT($id);
 
         return view('admin.Ordersbuy.edit_buy', $data);
     }
@@ -203,8 +208,6 @@ class OrdersbuyController extends Controller
 
     public function showReceipt_buy($id)
     {
-        // $data['getdetailbuy'] = UserBuyModel::getdetail($id);
-        // $data['getSingle'] = UserBuyModel::getSingle($id);
         $data['getSinglebuy'] = OderBuyModel::getSingle_edit($id);
 
         return view('admin.Ordersbuy.receipt', $data);

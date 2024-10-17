@@ -22,7 +22,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <p><strong>หมายเลขคำสั่งซื้อ:</strong> {{$getdetailbuy->users_buy_id}}</p>
-                                        <p><strong>วันที่สั่งซื้อ:</strong> {{$getdetailbuy->created_at}}</p>
+                                        <p><strong>วันที่สั่งซื้อ:</strong> {{ \Carbon\Carbon::parse($getdetailbuy->created_at)->locale('th')->translatedFormat('d M Y H:i')}}</p>
                                         <p><strong>สถานะ:</strong> <span class="badge bg-warning">
                                                 @if($getdetailbuy->status == 0)
                                                 รอการยืนยัน
@@ -36,7 +36,7 @@
                                                 ยกเลิก
                                                 @endif
                                             </span></p>
-                                        <p><strong>วันที่เก็บสินค้าได้:</strong> {{$getdetailbuy->ready_date}}</p>
+                                        <p><strong>วันที่เก็บสินค้าได้:</strong> {{ \Carbon\Carbon::parse($getdetailbuy->date_play)->locale('th')->translatedFormat('d M Y')}}</p>
                                     </div>
 
                                     <div class="col-md-6">
@@ -112,7 +112,7 @@
                                             </td>
                                             <td>{{ $getbuy->getProduct->title }}</td>
                                             <td>{{ $getbuy->quantity }} ลูก</td>
-                                            <td>วันที่</td>
+                                            <td>{{ \Carbon\Carbon::parse($getbuy->date_play)->locale('th')->translatedFormat('d M Y')}}</td>
                                             <td>
                                                 <div class="dropdown d-inline mr-2">
                                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

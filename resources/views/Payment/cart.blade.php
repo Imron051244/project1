@@ -6,7 +6,7 @@
     <!-- Breadcrumb -->
     <div id="breadcrumb">
         <div class="container">
-            <h2 class="title">รายการสินค้า</h2>
+            <h2 style="font-family: 'Noto Serif Thai', serif;" class="title">รายการสินค้า</h2>
 
         </div>
     </div>
@@ -168,14 +168,14 @@
 
                 <div class="checkout-btn">
                     <a href="{{url('checkout')}}" class="btn btn-primary pull-right" title="Proceed to checkout">
-                        <span>ยืนยันรายการ</span>
+                        <span style="font-family: 'Noto Serif Thai', serif;">ยืนยันรายการ</span>
                         <i class="fa fa-angle-right ml-xs"></i>
                     </a>
                 </div>
 
                 <div class="checkout-btn">
                     <button type="submit" class="btn btn-primary pull-right" title="Proceed to checkout">
-                        <span>อัพเดดรายการ</span>
+                        <span style="font-family: 'Noto Serif Thai', serif;">อัพเดดรายการ</span>
                         <i class="fa fa-angle-right ml-xs"></i>
                     </button>
                 </div>

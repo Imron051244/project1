@@ -13,6 +13,7 @@ use App\Models\districts;
 use App\Models\OderSellModel;
 use App\Models\UserBuyModel;
 use App\Models\OderBuyModel;
+use Carbon\Carbon;
 
 
 use Darryldecode\Cart\Facades\CartFacade as Cart;
@@ -133,6 +134,7 @@ class PaymentController extends Controller
 
             return redirect()->back()->with('successPD', 'สั่งซื้อเรียบร้อยแล้ว');
         } elseif (auth()->user()->type === 'ผู้ขาย') {
+            
             $request->validate([
                 'name' => 'required',
                 'last_Name' => 'required',
@@ -141,7 +143,7 @@ class PaymentController extends Controller
                 'province_id' => 'required',
                 'district_id' => 'required',
                 'subdistrict_id' => 'required',
-
+                'date' => 'required'
             ], [
                 'name.required' => 'กรุณากรอกชื่อ',
                 'last_Name.required' => 'กรุณากรอกนามสกุล',
@@ -150,7 +152,7 @@ class PaymentController extends Controller
                 'province_id.required' => 'กรุณาเลือกจังหวัด',
                 'district_id.required' => 'กรุณาเลือกอำเภอ',
                 'subdistrict_id.required' => 'กรุณาเลือกตำบล',
-
+                'date.required' => 'กรุณากรอกวันที่เก็บผลได้',
 
             ]);
 
@@ -171,13 +173,15 @@ class PaymentController extends Controller
             // บันทึกข้อมูลการสั่งขาย
             foreach (Cart::getContent() as $key => $header_cart) {
 
+                $formattedDate = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
                 $oderbuy = new OderBuyModel;
                 $oderbuy->user_buy_id = $userbuy->id;
-                $oderbuy->product_id = $header_cart->id;
+                $oderbuy->product_id = explode('-', $header_cart->id)[0];
                 $oderbuy->quantity = $header_cart->quantity;
+                $oderbuy->date_play = trim($formattedDate);
 
                 // บันทึกข้อมูลลงฐานข้อมูล
-
+                 
                 $oderbuy->save();
             }
 
@@ -191,97 +195,85 @@ class PaymentController extends Controller
 
 
     public function add_to_cart(Request $request)
-    {
-        $request->validate(
-            [
-                // 'grade' => 'required',
-                'quantity' => 'required' // ต้องมีการเลือกเกรด
-            ],
-            [
-                // 'grade.required' => 'กรุณาเลือกเกรดสินค้า',
-                'quantity.required' => 'กรุณากรอก',
-            ]
-        );
+{
+    $request->validate(
+        [
+            'grade' => 'required_if:user_type,ผู้ซื้อ', // ถ้าผู้ใช้เป็นผู้ซื้อ ต้องเลือกเกรด
+            'quantity' => 'required|integer|min:1' // ต้องกรอกจำนวน และต้องเป็นจำนวนเต็มบวก
+        ],
+        [
+            'grade.required_if' => 'กรุณาเลือกเกรดสินค้า',
+            'quantity.required' => 'กรุณากรอกจำนวน',
+            'quantity.integer' => 'จำนวนต้องเป็นตัวเลข',
+            'quantity.min' => 'จำนวนต้องมากกว่าหรือเท่ากับ 1',
+        ]
+    );
 
-        $getProduct = ProductModel::getSingle($request->product_id);
-        $getPrice = PriceModel::getSingle($request->grade);
+    $getProduct = ProductModel::getSingle($request->product_id);
+    $getPrice = PriceModel::getSingle($request->grade, $request->product_id);
+    
+    // ตรวจสอบว่าราคาที่ได้มาไม่เป็น null
+    if ($getPrice) {
+        $price_sell = $getPrice->price_sell;  // ราคาขาย
 
-
-        // ตรวจสอบว่าราคาที่ได้มาไม่เป็น null
-        if ($getPrice) {
-            // $price_buy = $getPrice->price_buy;    // ราคาซื้อ
-            $price_sell = $getPrice->price_sell;  // ราคาขาย
-
-            if ($request->user()) {
-                if ($request->user()->type === 'ผู้ขาย') {
-                    $total = 0;   // ราคาซื้อ
-                } elseif ($request->user()->type === 'ผู้ซื้อ') {
-                    $total = $price_sell;  // ราคาขาย
-                } else {
-                    $total = $price_sell;  // ค่าเริ่มต้น
-                }
-            } else {
-                // กรณีที่ไม่มีข้อมูลราคาจาก $getPrice
-                $total = $price_sell;  // หรือค่าเริ่มต้นอื่นที่เหมาะสม
-            }
-        } else {
-            // กรณีที่ไม่มีข้อมูลราคาจาก $getPrice
-            $total = 1;  // หรือค่าเริ่มต้นอื่นที่เหมาะสม
-        }
-
-
-        // ตรวจสอบว่ามีสินค้าที่เกรดเดียวกันอยู่ในตะกร้าแล้วหรือไม่
-        $cartItems = Cart::getContent();
-        $quantity = $request->quantity ?? 1;
-
-        if (optional($request->user())->type === 'ผู้ขาย') {
-            $existingCartItem = $cartItems->where('id', $request->product_id)->first();
-
-            if ($existingCartItem) {
-                // เพิ่มจำนวนสินค้าในตะกร้า
-                Cart::update($existingCartItem->id, [
-                    'quantity' => $existingCartItem->quantity + $quantity,
-                ]);
-            } else {
-                // เพิ่มสินค้าใหม่ลงในตะกร้า
-                Cart::add([
-                    'id' => $request->product_id,
-                    'name' => $getProduct->title,
-                    'quantity' => $quantity,
-                    'price' => $total,
-
-                    // ไม่ต้องเพิ่มราคาและเกรดสำหรับผู้ขาย
-                ]);
-            }
-        } else {
-            // สำหรับผู้ใช้อื่น (เช่น ผู้ซื้อ)
-            $existingCartItem = $cartItems->where('id', $request->product_id)
-                ->where('attributes.grade', $request->grade)
-                ->first();
-
-            if ($existingCartItem) {
-                // เพิ่มจำนวนสินค้าในตะกร้า
-                Cart::update($existingCartItem->id, [
-                    'quantity' => $existingCartItem->quantity + $quantity,
-                ]);
-            } else {
-                // เพิ่มสินค้าใหม่ลงในตะกร้า
-                Cart::add([
-                    'id' => $request->product_id,
-                    'name' => $getProduct->title,
-                    'price' => $total, // ราคาต่อหน่วย
-                    'quantity' => $quantity,
-                    'attributes' => [
-                        'grade' => $request->grade,
-                        'grade_name' => $getPrice->grade ?? '',
-                    ]
-                ]);
-            }
-        }
-
-
-        return redirect()->back()->with('success', 'สินค้าได้ถูกเพิ่มลงในตะกร้าเรียบร้อยแล้ว');
+        // คำนวณราคาโดยขึ้นอยู่กับประเภทผู้ใช้
+        $total = $request->user() ? 
+            ($request->user()->type === 'ผู้ขาย' ? 0 : $price_sell) : 
+            $price_sell; // หากไม่เข้าสู่ระบบ ใช้ราคาขาย
+    } else {
+        return redirect()->back()->withErrors('เกิดข้อผิดพลาด: ไม่สามารถดึงข้อมูลราคาได้');
     }
+
+    // ตรวจสอบว่ามีสินค้าที่เกรดเดียวกันอยู่ในตะกร้าแล้วหรือไม่
+    $cartItems = Cart::getContent();
+    $quantity = $request->quantity;
+
+    if ($request->user() && $request->user()->type === 'ผู้ขาย') {
+        $existingCartItem = $cartItems->where('id', $request->product_id)->first();
+
+        if ($existingCartItem) {
+            // เพิ่มจำนวนสินค้าในตะกร้า
+            Cart::update($existingCartItem->id, [
+                'quantity' => $existingCartItem->quantity + $quantity,
+            ]);
+        } else {
+            // เพิ่มสินค้าใหม่ลงในตะกร้า
+            Cart::add([
+                'id' => $request->product_id,
+                'name' => $getProduct->title,
+                'quantity' => $quantity,
+                'price' => $total,
+            ]);
+        }
+    } else {
+        // สำหรับผู้ใช้อื่น (เช่น ผู้ซื้อ)
+        $existingCartItem = $cartItems->where('id', $request->product_id)
+            ->where('attributes.grade', $request->grade)
+            ->first();
+
+        if ($existingCartItem) {
+            // เพิ่มจำนวนสินค้าในตะกร้า
+            Cart::update($existingCartItem->id, [
+                'quantity' => $existingCartItem->quantity + $quantity,
+            ]);
+        } else {
+            // เพิ่มสินค้าใหม่ลงในตะกร้า
+            Cart::add([
+                'id' => $request->product_id,
+                'name' => $getProduct->title,
+                'price' => $total,
+                'quantity' => $quantity,
+                'attributes' => [
+                    'grade' => $request->grade,
+                    'grade_name' => $getPrice->grade ?? '',
+                ]
+            ]);
+        }
+    }
+
+    return redirect()->back()->with('success', 'สินค้าได้ถูกเพิ่มลงในตะกร้าเรียบร้อยแล้ว');
+}
+
 
     public function update_cart(Request $request)
     {

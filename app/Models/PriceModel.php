@@ -16,9 +16,11 @@ class PriceModel extends Model
         return self::find($id);
     }
 
-    static public function getSingle($grade)
+    static public function getSingle($id, $productId)
     {
-        return self::where('grade', $grade)->first();
+        return self::where('grade', $id)
+            ->where('product_id', $productId)
+            ->first();
     }
 
     static public function getRecord()
@@ -46,5 +48,4 @@ class PriceModel extends Model
     {
         return $this->belongsTo(ProductModel::class, 'product_id');
     }
-
 }

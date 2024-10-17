@@ -5,18 +5,16 @@
     <!-- Breadcrumb -->
     <div id="breadcrumb">
         <div class="container">
-            <h2 style="font-family: 'Noto Serif Thai', serif; " class="title">{{$getProductDetail->title}}</h2>
+            <h2 class="title" style="font-family: 'Noto Serif Thai', serif;">{{$getProductDetail->title}}</h2>
         </div>
     </div>
 
-
-    <div style="font-family: 'Noto Serif Thai', serif; " class="container" >
+    <div class="container" style="font-family: 'Noto Serif Thai', serif;">
         <div class="row">
             <!-- Sidebar -->
             <div id="left-column" class="sidebar col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                <!-- Block - Product Categories -->
                 <div class="block product-categories">
-                    <h3 style="font-family: 'Noto Serif Thai', serif; " class="block-title">ประเภทสินค้า</h3>
+                    <h3 style="font-family: 'Noto Serif Thai', serif;" class="block-title">ประเภทสินค้า</h3>
                     @php
                     $getCategory = App\Models\CategoryModel::getRecordMenu();
                     @endphp
@@ -24,14 +22,12 @@
                     @foreach ($getCategory as $CategoryName)
                     <div class="block-content">
                         <div class="item">
-                            <a style="font-family: 'Noto Serif Thai', serif; " class="category-title" href="{{route('categoryName', $CategoryName->title)}}">
+                            <a style="font-family: 'Noto Serif Thai', serif;" class="category-title" href="{{route('categoryName', $CategoryName->title)}}">
                                 {{ $CategoryName->title }}
                             </a>
                         </div>
                     </div>
                     @endforeach
-
-
                 </div>
             </div>
 
@@ -40,34 +36,27 @@
                 <div class="product-detail">
                     <div class="products-block layout-5">
                         <div class="product-item">
-                            <div style="font-size: 28px; font-family: 'Noto Serif Thai', serif;" class="product-title">
+                            <div class="product-title" style="font-size: 28px; font-family: 'Noto Serif Thai', serif;">
                                 {{$getProductDetail->title}}
                             </div>
 
                             <div class="row">
-
                                 @php
                                 $getProductImage = $getProductDetail->getImageSingle($getProductDetail->id);
                                 @endphp
 
                                 <div class="product-left col-md-5 col-sm-5 col-xs-12">
                                     <div class="product-image horizontal">
-
                                         <div class="main-image">
                                             @if (!empty($getProductImage) && !empty($getProductImage->image_name))
-                                            <img class="img-responsive"
-                                                src="{{ asset('upload/product/' . $getProductImage->image_name) }}"
-                                                alt="Product Image">
+                                            <img class="img-responsive" src="{{ asset('upload/product/' . $getProductImage->image_name) }}" alt="Product Image">
                                             @endif
                                         </div>
 
                                         <div class="thumb-images owl-theme owl-carousel">
                                             @foreach ($getProductDetail->getImage as $image)
-                                            <img class="img-responsive"
-                                                src="{{ asset('upload/product/' . $image->image_name) }}"
-                                                alt="Product Image">
+                                            <img class="img-responsive" src="{{ asset('upload/product/' . $image->image_name) }}" alt="Product Image">
                                             @endforeach
-
                                         </div>
                                     </div>
                                 </div>
@@ -82,182 +71,106 @@
                                         @endif
 
                                         <form action="{{url('add-to-cart')}}" method="post">
-                                            {{ csrf_field()}}
-                                            @if (auth()->check() && auth()->user()->type === 'ผู้ขาย')
-                                            <input type="hidden" name="product_id" value="{{ $getProductDetail->id }}">
-                                            @else
+                                            {{ csrf_field() }}
                                             <input type="hidden" id="product_id" name="product_id" value="{{ $getProductDetail->id }}">
-                                            @endif
 
-
-                                            @if (auth()->check() && auth()->user()->type === 'ผู้ซื้อ')
-                                            <!-- แสดงเฉพาะราคาขายสำหรับผู้ซื้อ -->
+                                            <!-- แสดงราคาตามประเภทผู้ใช้ -->
                                             <div class="product-price">
-                                                <span style="font-family: 'Noto Serif Thai', serif; " id="productSellPrice" class="sale-price">
-                                                    ราคา ฿{{$getProductDetail->price_buy }}
-                                                </span>
-                                            </div>
-                                            @elseif (auth()->check() && auth()->user()->type === 'ผู้ขาย')
-                                            <!-- แสดงเฉพาะราคาขายสำหรับผู้ขาย -->
-                                            <div class="product-price">
-                                                <span style="font-family: 'Noto Serif Thai', serif; " id="productPrice" class="sale-price">
-                                                    ราคา ฿{{$getProductDetail->price_sell}}
-                                                </span>
-                                            </div>
-                                            @else
-                                            <!-- แสดงทั้งราคาซื้อและราคาขายสำหรับผู้ใช้ที่ไม่ได้เข้าสู่ระบบหรือไม่ใช่ผู้ซื้อ -->
-                                            <div class="product-price">
-                                                <span style="font-family: 'Noto Serif Thai', serif; " id="productPrice" class="sale-price">
+                                                @if (auth()->check())
+                                                    @if (auth()->user()->type === 'ผู้ซื้อ')
+                                                    <span style="font-family: 'Noto Serif Thai', serif;" id="productSellPrice" class="sale-price">
+                                                        ราคา ฿{{$getProductDetail->price_buy }}
+                                                    </span>
+                                                    @elseif (auth()->user()->type === 'ผู้ขาย')
+                                                    <span style="font-family: 'Noto Serif Thai', serif;" id="productPrice" class="sale-price">
+                                                        ราคา ฿{{$getProductDetail->price_sell}}
+                                                    </span>
+                                                    @endif
+                                                @else
+                                                <span style="font-family: 'Noto Serif Thai', serif;" id="productPrice" class="sale-price">
                                                     ราคารับซื้อ ฿{{$getProductDetail->price_sell }}
                                                 </span>
-                                            </div>
-                                            <p></p>
-                                            <div class="product-price">
-                                                <span style="font-family: 'Noto Serif Thai', serif; " id="productSellPrice" class="sale-price">
+                                                <p></p>
+                                                <span style="font-family: 'Noto Serif Thai', serif;" id="productSellPrice" class="sale-price">
                                                     ราคาขาย ฿{{$getProductDetail->price_buy}}
                                                 </span>
+                                                @endif
                                             </div>
-                                            @endif
 
-                                            @if (auth()->check() && auth()->user()->type === 'ผู้ขาย')
                                             <div class="product-variants border-bottom">
                                                 <div class="product-variants-item">
                                                     <span class="control-label">เกรด :</span>
-
-                                                    <select id="productGrade">
-                                                        <option value="#" selected disabled>เลือกเกรด</option>
-                                                        @foreach ($getProductPrices as $grade)
-                                                        <option value="{{$grade->grade}}">
-                                                            {{$grade->grade}}
-                                                        </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <!-- @error('grade')
-                                                <span class="text-danger" style="color: red;">{{$message}}</span>
-                                                @enderror -->
-
-                                            </div>
-
-                                            @else
-                                            <div class="product-variants border-bottom">
-                                                <div class="product-variants-item">
-                                                    <span class="control-label">เกรด :</span>
-
                                                     <select id="productGrade" name="grade" required>
                                                         <option value="#" selected disabled>เลือกเกรด</option>
                                                         @foreach ($getProductPrices as $grade)
-                                                        <option value="{{$grade->grade}}">
-                                                            {{$grade->grade}}
-                                                        </option>
+                                                        <option value="{{$grade->grade}}">{{$grade->grade}}</option>
                                                         @endforeach
                                                     </select>
+                                                    @error('grade')
+                                                    <span class="text-danger" style="color: red;">{{$message}}</span>
+                                                    @enderror
                                                 </div>
-
-                                                @error('grade')
-                                                <span class="text-danger" style="color: red;">{{$message}}</span>
-                                                @enderror
                                             </div>
-                                            @endif
 
-                                            @if (auth()->check() && auth()->user()->type === 'ผู้ขาย')
-                                            <!-- แสดงเฉพาะราคาขายสำหรับผู้ขาย -->
                                             <div class="product-add-to-cart border-bottom">
                                                 <div class="product-quantity">
-                                                    <span class="control-label">ประมาณ :</span>
+                                                    <span class="control-label">{{ auth()->check() && auth()->user()->type === 'ผู้ขาย' ? 'ประมาณ :' : 'กิโลกรัม :' }}</span>
                                                     <div class="qty">
                                                         <div class="input-group">
-                                                            <input type="number" name="quantity" min="20" max="100" step="1" data-decimals="0">
+                                                            <input type="number" name="quantity" min="{{ auth()->check() && auth()->user()->type === 'ผู้ขาย' ? '20' : '1' }}" max="100" step="1" data-decimals="0">
                                                         </div>
                                                     </div>
-                                                    <span class="control-label">(คิดเป็นลูก)</span>
+                                                    <span class="control-label">{{ auth()->check() && auth()->user()->type === 'ผู้ขาย' ? '(คิดเป็นลูก)' : 'ก.' }}</span>
                                                 </div>
                                                 @error('quantity')
                                                 <span class="text-danger" style="color: red;">{{$message}}</span>
                                                 @enderror
-
-
                                             </div>
 
-                                            @else
-                                            <div class="product-add-to-cart border-bottom">
-                                                <div class="product-quantity">
-                                                    <span class="control-label">กิโลกรัม :</span>
-                                                    <div class="qty">
-                                                        <div class="input-group">
-                                                            <input type="number" name="quantity" min="1" max="100" step="1" data-decimals="0">
-
-                                                        </div>
-
-                                                    </div>
-                                                    <span class="control-label">ก.</span>
-                                                </div>
-                                            </div>
-                                            @endif
                                             <div class="product-buttons">
                                                 <button type="submit" class="add-to-cart">
                                                     <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                                                    <span>เพิ่มในตักกร้า</span>
+                                                    <span>เพิ่มในตะกร้า</span>
                                                 </button>
                                             </div>
-
                                         </form>
-
-
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+@endsection
 
 @section('Ajax')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-
         $('#productGrade').change(function() {
             var priceId = $(this).val();
-            var tmpproductId = $('#product_id').val() + '-' + priceId;
-            // alert(tmpproductId)
-            // alert(priceId)
+            var productId = $('#product_id').val();
+            var tmpproductId = productId + '-' + priceId;
 
-            $('#product_id').val(tmpproductId)
+            $('#product_id').val(tmpproductId);
 
             $.ajax({
-                url: "{{ url('/produstb') }}",
+                url: "{{ route('grade_product') }}",
                 type: 'GET',
                 data: {
+                    _token: '{{ csrf_token() }}',
                     price: priceId,
+                    product_id: productId,
                 },
                 success: function(response) {
-                    // alert(response)
-
-                    // ลบราคาที่แสดงอยู่ก่อนหน้านี้ออก
-                    $('#productPrice').empty();
-                    $('#productSellPrice').empty(); // ลบราคาขาย
-
-
-                    // เพิ่มราคาที่ได้รับจาก response
-                    $('#productPrice').text('ราคา' + ' ฿' + response.price_buy);
-                    $('#productSellPrice').text('ราคา' + ' ฿' + response.price_sell); // แสดงราคาขาย
-
+                    $('#productPrice').text('ราคา ฿' + response.price_buy);
+                    $('#productSellPrice').text('ราคา ฿' + response.price_sell);
                 }
             });
         });
     });
 </script>
-
-@endsection
-
-
 @endsection

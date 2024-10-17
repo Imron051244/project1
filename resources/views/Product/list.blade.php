@@ -70,7 +70,7 @@
 									<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 										<div class="product-item">
 											<div class="product-image">
-												<a href="{{ route('detail', ['id' => $Product->id]) }}">
+												<a href="{{ route('detail', ['productId' => $Product->title]) }}">
 													@if (!empty($getProductImage) && !empty($getProductImage->image_name))
 													<img style="height:199px; width:100%" class=" img-responsive"
 														src="{{ asset('upload/product/' . $getProductImage->image_name) }}"
@@ -81,7 +81,7 @@
 											</div>
 
 											<div class="product-title">
-												<a style="font-family: 'Noto Serif Thai', serif; " href="{{ route('detail', ['id' => $Product->id]) }}">
+												<a style="font-family: 'Noto Serif Thai', serif; " href="{{ route('detail', ['productId' =>$Product->title]) }}">
 													{{$Product->title}}
 												</a>
 											</div>
@@ -95,7 +95,7 @@
 											<div class="product-buttons">
 
 												<a class="quickview"
-													href="{{ route('detail', ['id' => $Product->id]) }}">
+													href="{{ route('detail', ['productId' => $Product->title]) }}">
 													<i class="fa fa-eye" aria-hidden="true"></i>
 												</a>
 											</div>
@@ -113,7 +113,7 @@
 					<!-- Pagination Bar -->
 					<div class="pagination-bar">
 						<div class="row">
-							
+
 							<div class="col-md-4 col-sm-4 col-xs-12">
 								<div class="text">Showing {{ $getProduct->firstItem() }}-{{ $getProduct->lastItem() }}
 									of {{ $getProduct->total() }} item(s)</div>

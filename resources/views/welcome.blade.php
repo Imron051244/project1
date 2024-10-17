@@ -180,7 +180,7 @@
                             $getProductImage = $itam->getImageSingle($itam->id);
                             @endphp
                             <div class="product-image">
-                                <a href="{{ route('detail', ['id' => $itam->id]) }}">
+                                <a href="{{ route('detail', ['productId' => $itam->title]) }}">
                                     @if (!empty($getProductImage) && !empty($getProductImage->image_name))
                                     <img src="{{ asset('upload/product/' . $getProductImage->image_name) }}" alt="{{$itam->title}}">
                                     @endif
@@ -188,7 +188,7 @@
                             </div>
 
                             <div class="product-title">
-                                <a href="{{ route('detail', ['id' => $itam->id]) }}">
+                                <a href="{{ route('detail', ['productId' => $itam->title]) }}">
                                     {{$itam->title}}
                                 </a>
                             </div>
@@ -200,7 +200,7 @@
 
                             <div class="product-buttons">
 
-                                <a class="quickview" href="{{ route('detail', ['id' => $itam->id]) }}">
+                                <a class="quickview" href="{{ route('detail', ['productId' => $itam->title]) }}">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
                             </div>

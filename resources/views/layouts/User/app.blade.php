@@ -11,6 +11,8 @@
 	<meta name="description" content="FreshMart - Organic, Fresh Food, Farm Store HTML Template">
 	<meta name="author" content="tivatheme">
 	@yield('boostrablogin')
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- Favicon -->
@@ -42,14 +44,12 @@
 		body {
 			font-family: 'Noto Serif Thai', serif;
 		}
-
-		
 	</style>
 </head>
 
 <body class="home home-1">
 	<div id="all">
-	
+
 		<!-- Header -->
 		@yield('Header')
 

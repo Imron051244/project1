@@ -146,10 +146,10 @@
 
                                             <td>
                                                 <div class="product-name"></div>
-                                                <a href="#">{{ $header_cart->name }}</a>
+                                                <a style="font-family: 'Noto Serif Thai', serif;">{{ $header_cart->name }}</a>
 
                                                 <div>
-                                                    <span class="product-price">{{ $header_cart->quantity }} (คิดเป็นต้น)</span>
+                                                    <span style="font-family: 'Noto Serif Thai', serif;" class="product-price">{{ $header_cart->quantity }} (คิดเป็นต้น)</span>
                                                 </div>
 
                                             </td>
@@ -177,18 +177,18 @@
 
                                             <td>
                                                 <div class="product-name"></div>
-                                                <a href="#">{{ $header_cart->name }}</a>
+                                                <a style="font-family: 'Noto Serif Thai', serif;">{{ $header_cart->name }}</a>
 
                                                 <div class="product-grade">
-                                                    เกรด: <span class="grade-name">
+                                                    เกรด: <span style="font-family: 'Noto Serif Thai', serif;" class="grade-name">
                                                         {{$gradeName}}
                                                     </span>
                                                 </div>
 
                                                 <div>
 
-                                                    <span class="product-price">{{ $header_cart->quantity }} x</span>
-                                                    <span class="product-price">฿{{ $header_cart->price }}</span>
+                                                    <span style="font-family: 'Noto Serif Thai', serif;" class="product-price">{{ $header_cart->quantity }} x</span>
+                                                    <span style="font-family: 'Noto Serif Thai', serif;" class="product-price">฿{{ $header_cart->price }}</span>
                                                 </div>
                                             </td>
                                             <td class="action">
@@ -201,7 +201,7 @@
                                         @endif
                                         @endforeach
 
-                                        <tr class="total">
+                                        <tr style="font-family: 'Noto Serif Thai', serif;" class="total">
                                             <td>ยอดรวม:</td>
                                             <td colspan="2">฿{{Cart::getTotal()}}</td>
                                         </tr>
@@ -209,9 +209,9 @@
                                         <tr>
                                             <td colspan="3">
                                                 <div class="cart-button">
-                                                    <a class="btn btn-primary" href="{{url('cart')}}"
+                                                    <a style="font-family: 'Noto Serif Thai', serif;" class="btn btn-primary" href="{{url('cart')}}"
                                                         title="View Cart">ตรวจสอบรายการ</a>
-                                                    <a class="btn btn-primary" href="{{url('checkout')}}"
+                                                    <a style="font-family: 'Noto Serif Thai', serif;" class="btn btn-primary" href="{{url('checkout')}}"
                                                         title="Checkout">ยืนยันรายการ</a>
                                                 </div>
                                             </td>

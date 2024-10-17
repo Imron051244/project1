@@ -24,7 +24,7 @@
 
                                     <div class="form-group">
                                         <label for="inputAddress">ชื่อสินค้า</label>
-                                        <input type="text" class="form-control" value="{{$getSingle->getProduct->title}}" readonly>
+                                        <input type="text" id="product_id" class="form-control" value="{{$getSingle->getProduct->title}}" readonly>
                                         <input type="hidden" name="product_id" value="{{$getSingle->getProduct->id}}">
                                     </div>
 
@@ -122,15 +122,20 @@
     $(document).ready(function() {
         $('body').on('change', '.productGrade', function() {
             var grade = $(this).val();
+            var productId = $('#product_id').val();
             var rowId = $(this).data('row-id');
+            alert(grade)
             
             $.ajax({
                 url: "{{ route('grade_price') }}",
                 type: 'GET',
                 data: {
-                    grade: grade
+                    _token: '{{ csrf_token() }}',
+                    grade: grade,
+                    product_id: productId,
                 },
                 success: function(response) {
+                    alert(response)
                     $(`#row_${rowId} .price`).val(response);
                 }
             });
